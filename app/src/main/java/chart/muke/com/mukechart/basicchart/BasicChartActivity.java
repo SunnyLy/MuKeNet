@@ -1,5 +1,7 @@
 package chart.muke.com.mukechart.basicchart;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -10,4 +12,8 @@ import android.support.v4.app.FragmentActivity;
  */
 
 public class BasicChartActivity extends FragmentActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 }
