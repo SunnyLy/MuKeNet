@@ -1,0 +1,7 @@
+@startuml
+class Dummy{
+String userName
++void setName()
+-void getName()
+}
+@enduml
