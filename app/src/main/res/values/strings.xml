@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">MukeChart</string>
+    <string name="app_name">慕课图表实战</string>
+
+    <string-array name="chart_types">
+        <item>MPAC实现直方图</item>
+        <item>MPAC实现曲线图</item>
+        <item>MPAC实现折线图</item>
+        <item>MPAC实现K线图</item>
+        <item>MPAC实现饼状图</item>
+        <item>MPAC实现雷达图</item>
+    </string-array>
 </resources>
