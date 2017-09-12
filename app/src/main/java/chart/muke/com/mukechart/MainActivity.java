@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import chart.muke.com.mukechart.basicchart.BarChartActivity;
+import chart.muke.com.mukechart.basicchart.CurveChartActivity;
+import chart.muke.com.mukechart.utils.MukeRouter;
 
 public class MainActivity extends ListActivity {
 
@@ -49,10 +51,12 @@ public class MainActivity extends ListActivity {
                         Intent intent = new Intent(MainActivity.this, BarChartActivity.class);
                         startActivity(intent);
                         break;
+                    case 1:
+                        MukeRouter.jump2target(MainActivity.this, CurveChartActivity.class);
+                        break;
                         default:
                             break;
                 }
-                Toast.makeText(MainActivity.this, "position:"+position, Toast.LENGTH_SHORT).show();
             }
         });
     }

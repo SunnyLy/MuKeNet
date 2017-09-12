@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ActivityTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarWidgetTheme">@style/Theme.Holo.ActionBar</item>
+    </style>
+
+    <style name="Theme.Holo.ActionBar" parent="">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 </resources>

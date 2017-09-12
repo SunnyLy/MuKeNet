@@ -5,21 +5,20 @@
     android:layout_height="match_parent"
     tools:context="chart.muke.com.mukechart.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_main_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        android:text="慕课图表实战"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:gravity="center"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_main_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:text="慕课图表实战"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="20sp"-->
+        <!--android:gravity="center"-->
+        <!--/>-->
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_main_title"
         android:layout_weight="1"
         android:drawSelectorOnTop="false"/>
 

@@ -1,5 +1,8 @@
 package chart.muke.com.mukechart.basicchart;
 
+import android.app.ActionBar;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +38,17 @@ public class BarChartActivity extends MukeBaseActivity {
 
     private BarChart mBarChart;
     private BarData mBarDatas;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(R.string.title_bar_chart);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null){
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setLogo(R.mipmap.ic_launcher);
+        }
+    }
 
     @Override
     protected void initParams() {
