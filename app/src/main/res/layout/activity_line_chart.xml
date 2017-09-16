@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/simple_line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_above="@+id/seekBar1" />
+
+    <Button
+        android:id="@+id/btn_linechart_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/show_shadow"/>
+
+    <Button
+        android:id="@+id/btn_linechart_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/show_circle"/>
+
+
+</LinearLayout>

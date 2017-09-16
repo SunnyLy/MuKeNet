@@ -21,6 +21,8 @@
         <activity android:name=".basicchart.BarChartActivity"
             />
         <activity android:name=".basicchart.CurveChartActivity"/>
+
+        <activity android:name=".basicchart.LineChartActivity"/>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import java.util.Map;
 
 import chart.muke.com.mukechart.basicchart.BarChartActivity;
 import chart.muke.com.mukechart.basicchart.CurveChartActivity;
+import chart.muke.com.mukechart.basicchart.LineChartActivity;
 import chart.muke.com.mukechart.utils.MukeRouter;
 
 public class MainActivity extends ListActivity {
@@ -53,6 +54,9 @@ public class MainActivity extends ListActivity {
                         break;
                     case 1:
                         MukeRouter.jump2target(MainActivity.this, CurveChartActivity.class);
+                        break;
+                    case 2:
+                        MukeRouter.jump2target(MainActivity.this, LineChartActivity.class);
                         break;
                         default:
                             break;
