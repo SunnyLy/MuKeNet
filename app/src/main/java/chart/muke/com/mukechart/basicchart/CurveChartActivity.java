@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -24,6 +25,10 @@ import chart.muke.com.mukechart.base.MukeBaseActivity;
  * @Annotation <p>曲线图界面:
  *                我们都知道，曲线是一条条的线段连接成的，那么，曲线图其实
  *                它也就是直线图
+ *                那么在真正画曲线图表的时候，除了把这曲线分成N段小线段后，
+ *                我们还可以用贝塞尔曲线来画，MPAC库不是选用的后者。
+ *                普通贝塞尔曲线原理：
+ *                一个起点，结束点，控制点
  *              在智能硬件相关APP上比较常见，比如：实时展示心率等</p>
  * @Auth Sunny
  * @date 2017/9/10
@@ -69,9 +74,12 @@ public class CurveChartActivity extends MukeBaseActivity {
             // create a dataset and give it a type
             set1 = new LineDataSet(yVals, "DataSet 1");
 
+            //****设置这个图表的模式：曲线模式
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
             set1.setCubicIntensity(0.2f);
-            //set1.setDrawFilled(true);
+            //是不是画封闭
+            set1.setDrawFilled(false);
             set1.setDrawCircles(false);
             set1.setLineWidth(1.8f);
             set1.setCircleRadius(4f);
@@ -131,6 +139,30 @@ public class CurveChartActivity extends MukeBaseActivity {
         y.setAxisLineColor(Color.WHITE);
 
         mCurveChart.getAxisRight().setEnabled(false);
+    }
+
+    private boolean isShaowShadow = false;
+
+    /**
+     * 来切换画阴影图
+     * @param view
+     */
+    public void showShadow(View view){
+        LineData lineData = mCurveChart.getData();
+        LineDataSet lineDataSet = (LineDataSet) lineData.getDataSetByLabel("DataSet 1",false);
+        if (lineDataSet != null){
+            if (!isShaowShadow){
+                lineDataSet.setDrawFilled(true);
+                isShaowShadow = true;
+            }else{
+                lineDataSet.setDrawFilled(false);
+                isShaowShadow = false;
+            }
+
+            mCurveChart.getData().notifyDataChanged();
+            mCurveChart.notifyDataSetChanged();
+            mCurveChart.invalidate();
+        }
     }
 
     @Override

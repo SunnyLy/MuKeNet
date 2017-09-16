@@ -2,6 +2,7 @@
     <string name="app_name">慕课图表实战</string>
     <string name="title_bar_chart">简单直方图</string>
     <string name="title_curve_chart">简单曲线图</string>
+    <string name="show_shadow">展示阴影图</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>
