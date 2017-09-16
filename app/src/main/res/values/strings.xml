@@ -4,6 +4,8 @@
     <string name="title_curve_chart">简单曲线图</string>
     <string name="show_shadow">展示阴影图</string>
     <string name="show_circle">显示圆点</string>
+    <string name="title_line_chart">简单折线图</string>
+    <string name="title_k_bar">MPAC实现K线图</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>

@@ -23,6 +23,8 @@
         <activity android:name=".basicchart.CurveChartActivity"/>
 
         <activity android:name=".basicchart.LineChartActivity"/>
+
+        <activity android:name=".basicchart.KChartActivity"/>
     </application>
 
 </manifest>

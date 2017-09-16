@@ -31,6 +31,7 @@ public class LineChartActivity extends MukeBaseActivity {
 
     @Override
     public int getLayoutId() {
+        setTitle(R.string.title_line_chart);
         return R.layout.activity_line_chart;
     }
 
