@@ -6,6 +6,10 @@
     <string name="show_circle">显示圆点</string>
     <string name="title_line_chart">简单折线图</string>
     <string name="title_k_bar">MPAC实现K线图</string>
+    <string name="title_pie_chart">MPAC实现饼状图</string>
+    <string name="no_data">暂无数据</string>
+    <string name="pie_center">利用MPAC来实现饼状图</string>
+    <string name="title_randar_chart">MPAC实现雷达图</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>

@@ -26,10 +26,6 @@ public abstract class MukeBaseActivity extends AppCompatActivity implements View
         initParams();
     }
 
-    /**
-     * 初始化一些參數
-     */
-    protected abstract void initParams();
 
     /**
      * 獲取佈局文件
@@ -37,6 +33,15 @@ public abstract class MukeBaseActivity extends AppCompatActivity implements View
      */
     public abstract int getLayoutId();
 
+    /**
+     * 初始化一些參數
+     */
+    protected abstract void initParams();
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     /**
      * 为View控件设置点击监听

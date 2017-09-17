@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
+import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -27,6 +30,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
      */
     protected Paint mWebPaint;
     protected Paint mHighlightCirclePaint;
+
 
     public RadarChartRenderer(RadarChart chart, ChartAnimator animator,
                               ViewPortHandler viewPortHandler) {
@@ -158,6 +162,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
         // pixels
         float factor = mChart.getFactor();
 
+        float score = 0f;//最終分數
+
         MPPointF center = mChart.getCenterOffsets();
         MPPointF pOut = MPPointF.getInstance(0,0);
         MPPointF pIcon = MPPointF.getInstance(0,0);
@@ -168,7 +174,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             IRadarDataSet dataSet = mChart.getData().getDataSetByIndex(i);
 
-            if (!shouldDrawValues(dataSet))
+            if (!shouldDrawValues(dataSet) && !mChart.isDrawValueCenter())
                 continue;
 
             // apply the text-styling defined by the DataSet
@@ -200,6 +206,9 @@ public class RadarChartRenderer extends LineRadarRenderer {
                                     (j));
                 }
 
+                Log.e("value:","值："+entry.getY());
+                score += entry.getY();
+
                 if (entry.getIcon() != null && dataSet.isDrawIconsEnabled()) {
 
                     Drawable icon = entry.getIcon();
@@ -224,6 +233,18 @@ public class RadarChartRenderer extends LineRadarRenderer {
             }
 
             MPPointF.recycleInstance(iconsOffset);
+        }
+
+        if (mChart.isDrawValueCenter()){
+            //在中間畫值
+            Paint centerPaint = new Paint();
+            centerPaint.setColor(Color.WHITE);
+            centerPaint.setTextSize(100);
+            String strScore = (int)score + "";
+            float centerX = center.x - centerPaint.measureText(strScore)/2;
+            float centerY = center.y - (centerPaint.ascent() + centerPaint.descent())/2;
+
+            c.drawText(strScore,centerX,centerY,centerPaint);
         }
 
         MPPointF.recycleInstance(center);
@@ -286,7 +307,14 @@ public class RadarChartRenderer extends LineRadarRenderer {
                 Utils.getPosition(center, r, sliceangle * i + rotationangle, p1out);
                 Utils.getPosition(center, r, sliceangle * (i + 1) + rotationangle, p2out);
 
-                c.drawLine(p1out.x, p1out.y, p2out.x, p2out.y, mWebPaint);
+                if (mChart.isDrawWebInnerEnable()){
+                    //不畫裡面的線，只畫最外面的一條
+                    c.drawLine(p1out.x, p1out.y, p2out.x, p2out.y, mWebPaint);
+                }else{
+                    if (j==labelCount -1){
+                        c.drawLine(p1out.x, p1out.y, p2out.x, p2out.y, mWebPaint);
+                    }
+                }
 
 
             }

@@ -54,6 +54,10 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      */
     private boolean mDrawWeb = true;
 
+    private boolean mDrawWebInner = true;//画里面的线，默认为true
+
+    private boolean mDrawValueCenter = false;//在雷達圖中間畫值，默認為false
+
     /**
      * modulus that determines how many labels and web-lines are skipped before the next is drawn
      */
@@ -134,13 +138,14 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
         mXAxisRenderer.renderAxisLabels(canvas);
 
-        if (mDrawWeb)
-            mRenderer.drawExtras(canvas);
+        if (mDrawWeb){
+                mRenderer.drawExtras(canvas);
+        }
+
+        mRenderer.drawData(canvas);
 
         if (mYAxis.isEnabled() && mYAxis.isDrawLimitLinesBehindDataEnabled())
             mYAxisRenderer.renderLimitLines(canvas);
-
-        mRenderer.drawData(canvas);
 
         if (valuesToHighlight())
             mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
@@ -284,6 +289,14 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         mWebColorInner = color;
     }
 
+    /**
+     * 是否可以画里面的线
+     * @return
+     */
+    public void setWebInnerEnable(boolean webInnerEnable){
+        mDrawWebInner = webInnerEnable;
+    }
+
     public int getWebColorInner() {
         return mWebColorInner;
     }
@@ -357,5 +370,17 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      */
     public float getYRange() {
         return mYAxis.mAxisRange;
+    }
+
+    public boolean isDrawWebInnerEnable() {
+        return mDrawWebInner;
+    }
+
+    public void setDrawCenterValue(boolean drawable) {
+        mDrawValueCenter = drawable;
+    }
+
+    public boolean isDrawValueCenter() {
+        return mDrawValueCenter;
     }
 }

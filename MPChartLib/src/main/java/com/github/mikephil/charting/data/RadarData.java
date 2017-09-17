@@ -55,4 +55,12 @@ public class RadarData extends ChartData<IRadarDataSet> {
     public Entry getEntryForHighlight(Highlight highlight) {
         return getDataSetByIndex(highlight.getDataSetIndex()).getEntryForIndex((int) highlight.getX());
     }
+
+    /**
+     * 獲取中間要展示的值
+     * @return
+     */
+    public float getCenterValue() {
+        return 0;
+    }
 }

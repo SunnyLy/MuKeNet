@@ -53,7 +53,7 @@ public class KChartActivity extends MukeBaseActivity {
     protected void initParams() {
 
         initKChart();
-        setData(10,100);
+        setData(40,100);
         mKChart.invalidate();
 
 
