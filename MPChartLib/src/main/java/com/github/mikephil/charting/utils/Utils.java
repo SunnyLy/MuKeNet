@@ -4,6 +4,7 @@ package com.github.mikephil.charting.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -613,10 +614,77 @@ public abstract class Utils {
             drawOffsetX += x;
             drawOffsetY += y;
 
+            Log.e("radar","drawText:"+drawOffsetX+","+drawOffsetY);
             c.drawText(text, drawOffsetX, drawOffsetY, paint);
         }
 
         paint.setTextAlign(originalTextAlign);
+    }
+
+    public static void drawXAxisDrawable(Canvas c,String text, Bitmap labelIcon, float x, float y,
+                                         Paint paint,
+                                         MPPointF anchor, float angleDegrees) {
+
+        float drawOffsetX = 0.f;
+        float drawOffsetY = 0.f;
+
+        final float lineHeight = paint.getFontMetrics(mFontMetricsBuffer);
+        paint.getTextBounds(text, 0, text.length(), mDrawTextRectBuffer);
+
+        // Android sometimes has pre-padding
+        drawOffsetX -= mDrawTextRectBuffer.left;
+
+        // Android does not snap the bounds to line boundaries,
+        //  and draws from bottom to top.
+        // And we want to normalize it.
+        drawOffsetY += -mFontMetricsBuffer.ascent;
+
+        // To have a consistent point of reference, we always draw left-aligned
+        Paint.Align originalTextAlign = paint.getTextAlign();
+        paint.setTextAlign(Paint.Align.LEFT);
+        Log.e("radar","Icon角度:"+angleDegrees);
+        if (angleDegrees != 0.f) {
+
+            // Move the text drawing rect in a way that it always rotates around its center
+            drawOffsetX -= mDrawTextRectBuffer.width() * 0.5f;
+            drawOffsetY -= lineHeight * 0.5f;
+
+            float translateX = x;
+            float translateY = y;
+
+            // Move the "outer" rect relative to the anchor, assuming its centered
+            if (anchor.x != 0.5f || anchor.y != 0.5f) {
+                final FSize rotatedSize = getSizeOfRotatedRectangleByDegrees(
+                        mDrawTextRectBuffer.width(),
+                        lineHeight,
+                        angleDegrees);
+
+                translateX -= rotatedSize.width * (anchor.x - 0.5f);
+                translateY -= rotatedSize.height * (anchor.y - 0.5f);
+                FSize.recycleInstance(rotatedSize);
+            }
+
+            c.save();
+            c.translate(translateX, translateY);
+            c.rotate(angleDegrees);
+
+           // c.drawText(text, drawOffsetX, drawOffsetY, paint);
+            c.drawBitmap(labelIcon,drawOffsetX,drawOffsetY,paint);
+
+            c.restore();
+        }else {
+            if (anchor.x != 0.f || anchor.y != 0.f) {
+
+                drawOffsetX -= mDrawTextRectBuffer.width() * anchor.x;
+                drawOffsetY -= lineHeight * anchor.y;
+            }
+
+            drawOffsetX += x;
+            drawOffsetY += y;
+
+            Log.e("radar","drawIcon:"+drawOffsetX+","+drawOffsetY);
+            c.drawBitmap(labelIcon, drawOffsetX, drawOffsetY, paint);
+        }
     }
 
     public static void drawMultilineText(Canvas c, StaticLayout textLayout,

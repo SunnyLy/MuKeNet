@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 import com.github.mikephil.charting.components.YAxis;
@@ -15,6 +16,9 @@ import com.github.mikephil.charting.renderer.RadarChartRenderer;
 import com.github.mikephil.charting.renderer.XAxisRendererRadarChart;
 import com.github.mikephil.charting.renderer.YAxisRendererRadarChart;
 import com.github.mikephil.charting.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the RadarChart, a "spidernet"-like chart. It works best
@@ -70,6 +74,8 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     protected YAxisRendererRadarChart mYAxisRenderer;
     protected XAxisRendererRadarChart mXAxisRenderer;
+    private boolean mDrawLabelIcon = false;
+    private List<Drawable> mLabelIcons = new ArrayList<>();
 
     public RadarChart(Context context) {
         super(context);
@@ -382,5 +388,28 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     public boolean isDrawValueCenter() {
         return mDrawValueCenter;
+    }
+
+    public void setDrawLabelIcon(boolean drawLabelIcon) {
+
+        mDrawLabelIcon = drawLabelIcon;
+    }
+
+    public boolean isDrawLabelIcon() {
+        return mDrawLabelIcon;
+    }
+
+    public void setLabelIcons(Drawable... drawables){
+        if (drawables != null && drawables.length > 0){
+            mLabelIcons.clear();
+            for (Drawable drawable:drawables){
+                mLabelIcons.add(drawable);
+            }
+        }
+
+    }
+
+    public Drawable[] getLabelIcons() {
+        return mLabelIcons.toArray(new Drawable[]{});
     }
 }

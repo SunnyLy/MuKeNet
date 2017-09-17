@@ -1,8 +1,13 @@
 
 package com.github.mikephil.charting.renderer;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -39,6 +44,9 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         // pixels
         float factor = mChart.getFactor();
 
+        //LabelIcons
+        Drawable[] labelIcons = mChart.getLabelIcons();
+
         MPPointF center = mChart.getCenterOffsets();
         MPPointF pOut = MPPointF.getInstance(0,0);
         for (int i = 0; i < mChart.getData().getMaxEntryCountSet().getEntryCount(); i++) {
@@ -52,6 +60,21 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
             drawLabel(c, label, pOut.x, pOut.y - mXAxis.mLabelRotatedHeight / 2.f,
                     drawLabelAnchor, labelRotationAngleDegrees);
+        }
+
+        if (mChart.isDrawLabelIcon() && labelIcons!=null && labelIcons.length > 0){
+           for (int i=0;i<labelIcons.length;i++){
+               Drawable drawable = labelIcons[i];
+               Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+               String label = mXAxis.getValueFormatter().getFormattedValue(i, mXAxis);
+               float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
+               if (bitmap != null){
+                   //c.drawBitmap(bitmap,pOut.x,pOut.y- mXAxis.mLabelRotatedHeight / 2.f,mAxisLabelPaint);
+                   Utils.getPosition(center, mChart.getYRange() * factor
+                           + mXAxis.mLabelRotatedWidth / 2f, angle, pOut);
+                   Utils.drawXAxisDrawable(c,label,bitmap,pOut.x,pOut.y- mXAxis.mLabelRotatedHeight / 2.f,mAxisLabelPaint,drawLabelAnchor, labelRotationAngleDegrees);
+               }
+           }
         }
 
         MPPointF.recycleInstance(center);

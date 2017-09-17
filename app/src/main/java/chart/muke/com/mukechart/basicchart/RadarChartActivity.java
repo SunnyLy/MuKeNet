@@ -1,6 +1,7 @@
 package chart.muke.com.mukechart.basicchart;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -30,6 +31,7 @@ public class RadarChartActivity extends MukeBaseActivity {
     private RadarChart mRadarChart;
 
     private String[] mDemissions = {"身份特质","履约能力","信用历史","人脉关系","行为偏好"};
+    private Drawable[] mLabelIcons = new Drawable[5];
     @Override
     public int getLayoutId() {
         setTitle(R.string.title_randar_chart);
@@ -43,7 +45,11 @@ public class RadarChartActivity extends MukeBaseActivity {
 
     @Override
     protected void initParams() {
-
+            mLabelIcons[0] = getResources().getDrawable(R.mipmap.ic_identity);
+        mLabelIcons[1] = getResources().getDrawable(R.mipmap.ic_performance);
+        mLabelIcons[2] = getResources().getDrawable(R.mipmap.ic_history);
+        mLabelIcons[3] = getResources().getDrawable(R.mipmap.ic_contacts);
+        mLabelIcons[4] = getResources().getDrawable(R.mipmap.ic_predilection);
         initRadarChart();
         setData(mDemissions.length,100);
         mRadarChart.invalidate();
@@ -78,6 +84,8 @@ public class RadarChartActivity extends MukeBaseActivity {
         mRadarChart.setWebColorInner(Color.WHITE);//各頂點連線
         mRadarChart.setWebColor(Color.WHITE);//頂點到中點的連線
         mRadarChart.setDrawCenterValue(true);//是否在中間畫值
+        mRadarChart.setDrawLabelIcon(true);//是否在Label上画Icon
+        mRadarChart.setLabelIcons(mLabelIcons);
         mRadarChart.setBackgroundColor(0xFF1196EE);
         mRadarChart.setSkipWebLineCount(0);
         mRadarChart.setRotationEnabled(false);
