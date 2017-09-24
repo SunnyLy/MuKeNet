@@ -29,6 +29,8 @@
         <activity android:name=".basicchart.PieChartActivity"/>
 
         <activity android:name=".basicchart.RadarChartActivity"/>
+
+        <activity android:name=".basicgraph.SimpleGraphActivity"/>
     </application>
 
 </manifest>
