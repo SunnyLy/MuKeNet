@@ -53,13 +53,24 @@ public abstract class BaseGraphView extends View {
     public int width;
     //视图高度
     public int height;
-    //坐标原点位置
-    public  int originX = 100;
-    public  int originY = 800;
+    //坐标原点位置，给定默认初始值
+    //坐标原点的Y坐标，注意应该在X轴的坐标值，标题，以及Label等展示区上方
+    public  int originX ;
+    public  int originY ;
     public int padding = 30;
+    public int mDefMargin = 10;
+    public int mDefXValueHeight = 30;
+    public int mDefTitleHeight = 30;
+    public int mDefLabelHeight = 30;
     //柱状图数据
     public int columnInfo[][];
 
+    //背景颜色
+    public int bgColor = Color.WHITE;
+
+    public void setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+    }
 
     public BaseGraphView(Context context) {
         this(context,null);
@@ -160,25 +171,53 @@ public abstract class BaseGraphView extends View {
 //        width = getWidth() - originX-100;
 //        height = getHeight() - 400;
 
-        Paint cavansPaint = new Paint();
-        cavansPaint.setColor(Color.WHITE);
-        canvas.drawRect(getWidth(),getTop()-30,getRight()-padding,getBottom(),cavansPaint);
-
         width = getWidth();
         height = getHeight();
+
+        canvas.drawColor(bgColor);
+
         originX = 100;
-        originY = getTop() + height;
+        originY = getTop() + height - (mDefXValueHeight + mDefTitleHeight + mDefXValueHeight);
+        /**
+         * 画X,Y轴
+         */
         drawAxisX(canvas, mPaint);
         drawAxisY(canvas, mPaint);
+        /**
+         * 画X,Y轴上的分割线标记
+         */
         drawAxisScaleMarkX(canvas, mPaint);
         drawAxisScaleMarkY(canvas, mPaint);
+
+        /**
+         * 画X,Y轴上的箭头
+         */
         drawAxisArrowsX(canvas, mPaint);
         drawAxisArrowsY(canvas, mPaint);
+
+        /**
+         * 画X,Y轴上的刻度值
+         */
         drawAxisScaleMarkValueX(canvas, mPaint);
         drawAxisScaleMarkValueY(canvas, mPaint);
+
+        /**
+         * 画柱条
+         */
         drawColumn(canvas, mPaint);
+
+        /**
+         * 画标题
+         */
         drawTitle(canvas, mPaint);
+
+        /**
+         * 画颜色标记：如：红代表xx,绿代表xx
+         */
+        drawLabel(canvas,mPaint);
     }
+
+    protected abstract void drawLabel(Canvas canvas, Paint paint);
 
     protected abstract void drawAxisScaleMarkValueY(Canvas canvas, Paint paint);
 
@@ -187,12 +226,12 @@ public abstract class BaseGraphView extends View {
     //画标题
     private void drawTitle(Canvas canvas, Paint paint) {
         //画标题
-        if (mGrapthTitle != null) {
+        if (!TextUtils.isEmpty(mGrapthTitle)) {
             //设置画笔绘制文字的属性
             mPaint.setColor(mAxisTextColor);
             mPaint.setTextSize(mAxisTextSize);
             mPaint.setFakeBoldText(true);
-            canvas.drawText(mGrapthTitle, (getWidth()/2)-(paint.measureText(mGrapthTitle)/2), height + padding, paint);
+            canvas.drawText(mGrapthTitle, (getWidth()/2)-(paint.measureText(mGrapthTitle)/2), originY + mDefXValueHeight + mDefMargin + 10, paint);
         }
     }
 
@@ -207,11 +246,11 @@ public abstract class BaseGraphView extends View {
 //        mPathX.lineTo(originX - 10, originY - height);//下一点
 //        mPathX.lineTo(originX + 10, originY - height);//下一点
 
-        mPathX.moveTo(originX, getTop());//起始点
-        mPathX.lineTo(originX - 10, getTop()+30);//下一点
-        mPathX.lineTo(originX + 10, getTop()+30);//下一点
+        mPathX.moveTo(originX, getTop()+padding);//起始点
+        mPathX.lineTo(originX - 10, getTop()+padding*2);//下一点
+        mPathX.lineTo(originX + 10, getTop()+padding*2);//下一点
         mPathX.close();
-        paint.setColor(Color.RED);
+        paint.setColor(Color.BLACK);
         canvas.drawPath(mPathX, paint);
         if (!TextUtils.isEmpty(mYAxisName))
         canvas.drawText(mYAxisName,originX-50,getTop()+40,paint);
@@ -225,13 +264,13 @@ public abstract class BaseGraphView extends View {
     private void drawAxisArrowsX(Canvas canvas, Paint paint) {
         //画三角形（X轴箭头）
         Path mPathX = new Path();
-        mPathX.moveTo(width , height - padding);//起始点
-        mPathX.lineTo(width - padding, height - padding - 10);//下一点
-        mPathX.lineTo(width - padding, height - padding + 10);//下一点
+        mPathX.moveTo(width - padding , originY);//起始点
+        mPathX.lineTo(width - padding, originY - 10);//下一点
+        mPathX.lineTo(width - padding, originY + 10);//下一点
         mPathX.close();
         canvas.drawPath(mPathX, paint);
         if (!TextUtils.isEmpty(mXAxisName))
-        canvas.drawText(mXAxisName,width - padding,height - padding +30,paint);
+        canvas.drawText(mXAxisName,width - padding,originY +30,paint);
     }
 
     /**
