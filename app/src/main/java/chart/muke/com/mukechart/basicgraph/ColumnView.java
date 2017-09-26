@@ -47,16 +47,28 @@ public class ColumnView extends BaseGraphView {
 
     @Override
     protected void drawAxisScaleMarkValueX(Canvas canvas, Paint paint) {
+        if (columnInfo == null || columnInfo.length ==0){
+            return;
+        }
         //设置画笔绘制文字的属性
         paint.setColor(Color.GRAY);
         paint.setTextSize(20);
         paint.setFakeBoldText(true);
 
-        float cellWidth = width / axisDivideSizeX;
-        float cellValue = maxAxisValueX / axisDivideSizeX;
-        for (int i = 1; i < axisDivideSizeX; i++) {
+        float columnLeft = originX + padding;//第一个柱条左边距
+        float columnRight = padding + padding;//第一个padding为右边间距，第二个padding为箭头的宽度
+        /**
+         * 每一个柱条的宽度为View的总宽度 减去 两边要留出的距离
+         */
+        float cellWidth = (width - (columnLeft + columnRight)) / columnInfo.length;
+//        float cellWidth = width / axisDivideSizeX;
+        float cellValue = maxAxisValueX / columnInfo.length;
+        for (int i = 1; i <= columnInfo.length; i++) {
 //            canvas.drawText(String.valueOf(cellValue * i), cellWidth * i + originX - 35, originY + 30, paint);
-            canvas.drawText(String.valueOf(i), cellWidth * i + originX - 35, height- (mDefTitleHeight + mDefLabelHeight), paint);
+            //an = a1 + (n-1)*d
+            //a1 = columnLeft + cellWidth/2
+            //d = cellWidth
+            canvas.drawText(String.valueOf(i), (columnLeft + cellWidth/2) + (i -1)*cellWidth, height- (mDefTitleHeight + mDefLabelHeight), paint);
         }
     }
 
@@ -64,12 +76,18 @@ public class ColumnView extends BaseGraphView {
     protected void drawColumn(Canvas canvas, Paint paint) {
         if(columnInfo == null)
             return;
-        float cellWidth = (width - padding*2) / axisDivideSizeX;
+//        float cellWidth = (width - padding*2) / axisDivideSizeX;
+        float columnLeft = originX + padding;//第一个柱条左边距
+        float columnRight = padding + padding;//第一个padding为右边间距，第二个padding为箭头的宽度
+        /**
+         * 每一个柱条的宽度为View的总宽度 减去 两边要留出的距离
+         */
+        float cellWidth = (width - (columnLeft + columnRight)) / columnInfo.length;
         for (int i = 0; i < columnInfo.length; i++) {
             paint.setColor(columnInfo[i][1]);
             float leftTopY = height - height * columnInfo[i][0] / maxAxisValueY;
             //左上角x,y右下角x,y，画笔
-            canvas.drawRect(originX + cellWidth * (i + 1), leftTopY, originX + cellWidth * (i + 2), originY, mPaint);
+            canvas.drawRect(columnLeft+ cellWidth * (i), leftTopY, columnLeft+cellWidth * (i + 1), originY, mPaint);
         }
     }
 

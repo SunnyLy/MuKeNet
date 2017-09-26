@@ -16,12 +16,12 @@ import chart.muke.com.mukechart.R;
 /**
  * @Annotation <p>创建一个图表抽象基类:
  * 注意事项：
- *     1，图表控件宽高的确定
- *        可以通过获取屏幕的宽高，再减去边距
- *
- *     2，坐标轴上文字的标记
- *     3，标题的位置
- *         由屏幕宽度的一半再减去标题字符串宽度的一半，就得到标题显示在屏幕正中间</p>
+ * 1，图表控件宽高的确定
+ * 可以通过获取屏幕的宽高，再减去边距
+ * <p>
+ * 2，坐标轴上文字的标记
+ * 3，标题的位置
+ * 由屏幕宽度的一半再减去标题字符串宽度的一半，就得到标题显示在屏幕正中间</p>
  * @Auth Sunny
  * @date 2017/9/24
  * @Version V1.0.0
@@ -55,8 +55,8 @@ public abstract class BaseGraphView extends View {
     public int height;
     //坐标原点位置，给定默认初始值
     //坐标原点的Y坐标，注意应该在X轴的坐标值，标题，以及Label等展示区上方
-    public  int originX ;
-    public  int originY ;
+    public int originX;
+    public int originY;
     public int padding = 30;
     public int mDefMargin = 10;
     public int mDefXValueHeight = 30;
@@ -73,11 +73,11 @@ public abstract class BaseGraphView extends View {
     }
 
     public BaseGraphView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public BaseGraphView(Context context, AttributeSet attrs) {
-        this(context, attrs,-1);
+        this(context, attrs, -1);
     }
 
     public BaseGraphView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -87,10 +87,10 @@ public abstract class BaseGraphView extends View {
         mGrapthTitle = typedArray.getString(R.styleable.SunnyGraphStyle_graphTitle);
         mXAxisName = typedArray.getString(R.styleable.SunnyGraphStyle_X_AxisName);
         mYAxisName = typedArray.getString(R.styleable.SunnyGraphStyle_Y_AxisName);
-        mAxisTextColor = typedArray.getColor(R.styleable.SunnyGraphStyle_axisTextColor,context.getResources().getColor(android.R.color.black));
-        mAxisTextSize = typedArray.getDimension(R.styleable.SunnyGraphStyle_axisTextSize,12);
+        mAxisTextColor = typedArray.getColor(R.styleable.SunnyGraphStyle_axisTextColor, context.getResources().getColor(android.R.color.black));
+        mAxisTextSize = typedArray.getDimension(R.styleable.SunnyGraphStyle_axisTextSize, 12);
 
-        if(typedArray != null){
+        if (typedArray != null) {
             typedArray.recycle();
         }
 
@@ -100,7 +100,7 @@ public abstract class BaseGraphView extends View {
 
     private void initPaint(Context context) {
 
-        if(mPaint == null){
+        if (mPaint == null) {
             mPaint = new Paint();
             mPaint.setAntiAlias(true);
             mPaint.setDither(true);
@@ -131,26 +131,30 @@ public abstract class BaseGraphView extends View {
 
     /**
      * 手动设置X轴最大值及等份数
+     *
      * @param maxAxisValueX
      * @param dividedSize
      */
-    public void setXAxisValue(float maxAxisValueX,int dividedSize) {
+    public void setXAxisValue(float maxAxisValueX, int dividedSize) {
         this.maxAxisValueX = maxAxisValueX;
-        this.axisDivideSizeX = dividedSize;
+        if (columnInfo != null && columnInfo.length > 0)
+            this.axisDivideSizeX = columnInfo.length;
     }
 
     /**
      * 手动设置Y轴最大值及等份数
+     *
      * @param maxAxisValueY
      * @param dividedSize
      */
-    public void setYAxisValue(float maxAxisValueY,int dividedSize) {
+    public void setYAxisValue(float maxAxisValueY, int dividedSize) {
         this.maxAxisValueY = maxAxisValueY;
         this.axisDivideSizeY = dividedSize;
     }
 
     /**
      * 传入柱状图数据
+     *
      * @param columnInfo
      */
     public void setColumnInfo(int[][] columnInfo) {
@@ -163,7 +167,7 @@ public abstract class BaseGraphView extends View {
 //        width = MeasureSpec.getSize(widthMeasureSpec)  ;
 //        height = MeasureSpec.getSize(heightMeasureSpec);
 
-        Log.e(",,,,,,,,,","width:"+width+",height:"+height);
+        Log.e(",,,,,,,,,", "width:" + width + ",height:" + height);
     }
 
     @Override
@@ -214,7 +218,7 @@ public abstract class BaseGraphView extends View {
         /**
          * 画颜色标记：如：红代表xx,绿代表xx
          */
-        drawLabel(canvas,mPaint);
+        drawLabel(canvas, mPaint);
     }
 
     protected abstract void drawLabel(Canvas canvas, Paint paint);
@@ -231,7 +235,7 @@ public abstract class BaseGraphView extends View {
             mPaint.setColor(mAxisTextColor);
             mPaint.setTextSize(mAxisTextSize);
             mPaint.setFakeBoldText(true);
-            canvas.drawText(mGrapthTitle, (getWidth()/2)-(paint.measureText(mGrapthTitle)/2), originY + mDefXValueHeight + mDefMargin + 10, paint);
+            canvas.drawText(mGrapthTitle, (getWidth() / 2) - (paint.measureText(mGrapthTitle) / 2), originY + mDefXValueHeight + mDefMargin + 10, paint);
         }
     }
 
@@ -246,35 +250,37 @@ public abstract class BaseGraphView extends View {
 //        mPathX.lineTo(originX - 10, originY - height);//下一点
 //        mPathX.lineTo(originX + 10, originY - height);//下一点
 
-        mPathX.moveTo(originX, getTop()+padding);//起始点
-        mPathX.lineTo(originX - 10, getTop()+padding*2);//下一点
-        mPathX.lineTo(originX + 10, getTop()+padding*2);//下一点
+        mPathX.moveTo(originX, getTop() + padding);//起始点
+        mPathX.lineTo(originX - 10, getTop() + padding * 2);//下一点
+        mPathX.lineTo(originX + 10, getTop() + padding * 2);//下一点
         mPathX.close();
         paint.setColor(Color.BLACK);
         canvas.drawPath(mPathX, paint);
         if (!TextUtils.isEmpty(mYAxisName))
-        canvas.drawText(mYAxisName,originX-50,getTop()+40,paint);
+            canvas.drawText(mYAxisName, originX - 50, getTop() + 40, paint);
     }
 
     /**
      * X轴上的箭头
+     *
      * @param canvas
      * @param paint
      */
     private void drawAxisArrowsX(Canvas canvas, Paint paint) {
         //画三角形（X轴箭头）
         Path mPathX = new Path();
-        mPathX.moveTo(width - padding , originY);//起始点
-        mPathX.lineTo(width - padding, originY - 10);//下一点
-        mPathX.lineTo(width - padding, originY + 10);//下一点
+        mPathX.moveTo(width - padding, originY);//起始点
+        mPathX.lineTo(width - padding * 2, originY - 10);//下一点
+        mPathX.lineTo(width - padding * 2, originY + 10);//下一点
         mPathX.close();
         canvas.drawPath(mPathX, paint);
         if (!TextUtils.isEmpty(mXAxisName))
-        canvas.drawText(mXAxisName,width - padding,originY +30,paint);
+            canvas.drawText(mXAxisName, width - padding * 2, originY + 30, paint);
     }
 
     /**
      * Y轴上的标记
+     *
      * @param canvas
      * @param paint
      */
@@ -282,6 +288,7 @@ public abstract class BaseGraphView extends View {
 
     /**
      * X轴上的标记
+     *
      * @param canvas
      * @param paint
      */

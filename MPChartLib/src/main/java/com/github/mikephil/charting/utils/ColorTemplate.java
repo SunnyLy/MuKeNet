@@ -32,8 +32,11 @@ public class ColorTemplate {
      * FREE TO CREATE YOUR OWN WITH AS MANY DIFFERENT COLORS AS YOU WANT
      */
     public static final int[] LIBERTY_COLORS = {
-            Color.rgb(207, 248, 246), Color.rgb(148, 212, 212), Color.rgb(136, 180, 187),
-            Color.rgb(118, 174, 175), Color.rgb(42, 109, 130)
+            Color.rgb(207, 248, 246),
+            Color.rgb(148, 212, 212),
+            Color.rgb(136, 180, 187),
+            Color.rgb(118, 174, 175),
+            Color.rgb(42, 109, 130)
     };
     public static final int[] JOYFUL_COLORS = {
             Color.rgb(217, 80, 138), Color.rgb(254, 149, 7), Color.rgb(254, 247, 120),
