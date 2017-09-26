@@ -1,9 +1,6 @@
 package chart.muke.com.mukechart.basicgraph;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 
 import chart.muke.com.mukechart.R;
 import chart.muke.com.mukechart.base.MukeBaseActivity;
@@ -45,6 +42,8 @@ public class SimpleGraphActivity extends MukeBaseActivity {
                 {5, Color.YELLOW},
                 {3, Color.LTGRAY},
                 {2, Color.BLUE}};
+        mColumnView.setAxisTextSize(20);
         mColumnView.setColumnInfo(columnInfo);
+        mColumnView.invalidate();
     }
 }

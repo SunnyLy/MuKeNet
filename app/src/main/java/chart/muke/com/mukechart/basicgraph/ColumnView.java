@@ -28,6 +28,11 @@ public class ColumnView extends BaseGraphView {
     }
 
     @Override
+    protected void drawLabel(Canvas canvas, Paint paint) {
+
+    }
+
+    @Override
     protected void drawAxisScaleMarkValueY(Canvas canvas, Paint paint) {
         float cellHeight = height / axisDivideSizeY;
         float cellValue = maxAxisValueY / axisDivideSizeY;
@@ -51,7 +56,7 @@ public class ColumnView extends BaseGraphView {
         float cellValue = maxAxisValueX / axisDivideSizeX;
         for (int i = 1; i < axisDivideSizeX; i++) {
 //            canvas.drawText(String.valueOf(cellValue * i), cellWidth * i + originX - 35, originY + 30, paint);
-            canvas.drawText(String.valueOf(i), cellWidth * i + originX - 35, height, paint);
+            canvas.drawText(String.valueOf(i), cellWidth * i + originX - 35, height- (mDefTitleHeight + mDefLabelHeight), paint);
         }
     }
 
@@ -59,18 +64,18 @@ public class ColumnView extends BaseGraphView {
     protected void drawColumn(Canvas canvas, Paint paint) {
         if(columnInfo == null)
             return;
-        float cellWidth = width / axisDivideSizeX;
+        float cellWidth = (width - padding*2) / axisDivideSizeX;
         for (int i = 0; i < columnInfo.length; i++) {
             paint.setColor(columnInfo[i][1]);
             float leftTopY = height - height * columnInfo[i][0] / maxAxisValueY;
             //左上角x,y右下角x,y，画笔
-            canvas.drawRect(originX + cellWidth * (i + 1), leftTopY, originX + cellWidth * (i + 2), height - padding, mPaint);
+            canvas.drawRect(originX + cellWidth * (i + 1), leftTopY, originX + cellWidth * (i + 2), originY, mPaint);
         }
     }
 
     @Override
     protected void drawAxisScaleMarkY(Canvas canvas, Paint paint) {
-        float cellHeight = height / axisDivideSizeY;
+        float cellHeight = (height)/ axisDivideSizeY;
         for (int i = 0; i < axisDivideSizeY - 1; i++) {
             canvas.drawLine(originX, (height - cellHeight * (i + 1)), originX + 10, (height - cellHeight * (i + 1)), paint);
         }
@@ -80,7 +85,7 @@ public class ColumnView extends BaseGraphView {
     protected void drawAxisScaleMarkX(Canvas canvas, Paint paint) {
         float cellWidth = width / axisDivideSizeX;
         for (int i = 0; i < axisDivideSizeX - 1; i++) {
-            canvas.drawLine(cellWidth * (i + 1) + originX, height,
+            canvas.drawLine(cellWidth * (i + 1) + originX, height ,
                     cellWidth * (i + 1) + originX, height +10, paint);
         }
     }
@@ -91,7 +96,7 @@ public class ColumnView extends BaseGraphView {
 //        canvas.drawLine(originX, originY, originX, originY - height, paint);//参数说明：起始点左边x,y，终点坐标x,y，画笔
         int[] location = new int[2];
         getLocationInWindow(location);
-        canvas.drawLine(originX, height - padding, originX, getTop()+padding, paint);//参数说明：起始点左边x,y，终点坐标x,y，画笔
+        canvas.drawLine(originX, originY, originX, getTop()+padding, paint);//参数说明：起始点左边x,y，终点坐标x,y，画笔
 
     }
 
@@ -103,7 +108,7 @@ public class ColumnView extends BaseGraphView {
         //设置画笔抗锯齿
         paint.setAntiAlias(true);
         //画横轴(X)
-        canvas.drawLine(originX, height - padding, width - padding, height - padding, paint);
+        canvas.drawLine(originX, originY, width - padding, originY, paint);
 
     }
 }
