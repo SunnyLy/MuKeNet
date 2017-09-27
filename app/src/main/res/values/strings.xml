@@ -10,7 +10,8 @@
     <string name="no_data">暂无数据</string>
     <string name="pie_center">利用MPAC来实现饼状图</string>
     <string name="title_randar_chart">MPAC实现雷达图</string>
-    <string name="title_simple_graph">简单图表的绘制</string>
+    <string name="title_simple_graph">简单直方图的绘制</string>
+    <string name="title_simple_curve">简单曲线图的绘制</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>
@@ -19,6 +20,7 @@
         <item>MPAC实现K线图</item>
         <item>MPAC实现饼状图</item>
         <item>MPAC实现雷达图</item>
-        <item>简单图表的绘制</item>
+        <item>简单直方图的绘制</item>
+        <item>简单曲线图的绘制</item>
     </string-array>
 </resources>

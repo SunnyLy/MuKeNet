@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <chart.muke.com.mukechart.basicgraph.ColumnView
+    <chart.muke.com.mukechart.basicgraph.MukeColumnView
         android:id="@+id/column_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"

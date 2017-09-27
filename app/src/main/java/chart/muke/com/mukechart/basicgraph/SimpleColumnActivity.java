@@ -1,7 +1,5 @@
 package chart.muke.com.mukechart.basicgraph;
 
-import android.graphics.Color;
-
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import chart.muke.com.mukechart.R;
@@ -17,9 +15,9 @@ import static com.github.mikephil.charting.utils.ColorTemplate.LIBERTY_COLORS;
  * @Version V1.0.0
  */
 
-public class SimpleGraphActivity extends MukeBaseActivity {
+public class SimpleColumnActivity extends MukeBaseActivity {
 
-    private ColumnView mColumnView;
+    private MukeColumnView mColumnView;
 
     @Override
     public int getLayoutId() {
@@ -28,7 +26,7 @@ public class SimpleGraphActivity extends MukeBaseActivity {
 
     @Override
     public void onContentChanged() {
-        mColumnView = (ColumnView) findViewById(R.id.column_view);
+        mColumnView = (MukeColumnView) findViewById(R.id.column_view);
     }
 
     @Override

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <chart.muke.com.mukechart.basicgraph.MukeCurveView
+        android:id="@+id/curve_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:graphTitle="简单曲线图的绘制"
+        app:X_AxisName="年份"
+        app:Y_AxisName ="销售额(亿)"
+        app:axisTextSize="12sp"
+        app:showXaxis="true"
+        />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textOff="隐藏阴影"
+        android:textOn="显示阴影"
+        android:onClick="showHideShader"/>
+</LinearLayout>

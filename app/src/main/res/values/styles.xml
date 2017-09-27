@@ -26,5 +26,13 @@
         <attr name="Y_AxisName" format="string"/>
         <attr name="axisTextSize" format="dimension|integer"/>
         <attr name="axisTextColor" format="color|integer"/>
+        <!--是否显示圆点-->
+        <attr name="showOrigin" format="boolean"/>
+        <!-- 是否显示X轴-->
+        <attr name="showXaxis" format="boolean"/>
+        <!-- 是否显示Y轴-->
+        <attr name="showYaxis" format="boolean"/>
+        <!-- 坐标轴的颜色-->
+        <attr name="axisColor" format="integer|color|reference"/>
     </declare-styleable>
 </resources>

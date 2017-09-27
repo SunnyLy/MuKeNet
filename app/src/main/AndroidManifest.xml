@@ -30,7 +30,8 @@
 
         <activity android:name=".basicchart.RadarChartActivity"/>
 
-        <activity android:name=".basicgraph.SimpleGraphActivity"/>
+        <activity android:name=".basicgraph.SimpleColumnActivity"/>
+        <activity android:name=".basicgraph.SimpleCurveActivity"/>
     </application>
 
 </manifest>
