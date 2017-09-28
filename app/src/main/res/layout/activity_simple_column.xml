@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <chart.muke.com.mukechart.basicgraph.MukeColumnView
+        android:id="@+id/column_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:graphTitle="简单直方图的绘制"
+        app:X_AxisName="X轴"
+        app:Y_AxisName ="Y轴"/>
+</LinearLayout>

@@ -21,7 +21,7 @@ public class SimpleColumnActivity extends MukeBaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_simple_graph;
+        return R.layout.activity_simple_column;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SimpleColumnActivity extends MukeBaseActivity {
     @Override
     protected void initParams() {
 
-        setTitle(R.string.title_simple_graph);
+        setTitle(R.string.title_simple_column);
 
         mColumnView.setXAxisValue(10, 9);
         mColumnView.setYAxisValue(10,7);

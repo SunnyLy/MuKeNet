@@ -21,6 +21,7 @@ import chart.muke.com.mukechart.basicchart.PieChartActivity;
 import chart.muke.com.mukechart.basicchart.RadarChartActivity;
 import chart.muke.com.mukechart.basicgraph.SimpleColumnActivity;
 import chart.muke.com.mukechart.basicgraph.SimpleCurveActivity;
+import chart.muke.com.mukechart.basicgraph.SimpleGraphActivity;
 import chart.muke.com.mukechart.utils.MukeRouter;
 
 public class MainActivity extends ListActivity {
@@ -68,9 +69,12 @@ public class MainActivity extends ListActivity {
                         MukeRouter.jump2target(MainActivity.this, RadarChartActivity.class);
                         break;
                     case 6:
-                        MukeRouter.jump2target(MainActivity.this, SimpleColumnActivity.class);
+                        MukeRouter.jump2target(MainActivity.this, SimpleGraphActivity.class);
                         break;
                     case 7:
+                        MukeRouter.jump2target(MainActivity.this, SimpleColumnActivity.class);
+                        break;
+                    case 8:
                         MukeRouter.jump2target(MainActivity.this, SimpleCurveActivity.class);
                         break;
                         default:

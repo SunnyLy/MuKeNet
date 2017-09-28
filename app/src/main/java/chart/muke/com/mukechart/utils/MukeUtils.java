@@ -1,7 +1,14 @@
 package chart.muke.com.mukechart.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.WindowManager;
+
+import static android.content.Context.WINDOW_SERVICE;
 
 /**
  * ------------------------------------------------
@@ -26,5 +33,12 @@ public class MukeUtils {
    public static int sp2px(int sp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,
                 Resources.getSystem().getDisplayMetrics());
+    }
+
+    public static int[] getScreenWidth_Height(@NonNull Context context){
+        Display display = ((WindowManager)context.getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+        int height = display.getHeight();
+        int width = display.getWidth();
+        return new int[]{width,height};
     }
 }
