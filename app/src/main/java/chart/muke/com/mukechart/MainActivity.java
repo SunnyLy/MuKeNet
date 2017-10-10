@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import chart.muke.com.mukechart.actualchart.MojiAppActivity;
 import chart.muke.com.mukechart.basicchart.BarChartActivity;
 import chart.muke.com.mukechart.basicchart.CurveChartActivity;
 import chart.muke.com.mukechart.basicchart.KChartActivity;
@@ -76,6 +77,9 @@ public class MainActivity extends ListActivity {
                         break;
                     case 8:
                         MukeRouter.jump2target(MainActivity.this, SimpleCurveActivity.class);
+                        break;
+                    case 9:
+                        MukeRouter.jump2target(MainActivity.this, MojiAppActivity.class);
                         break;
                         default:
                             break;

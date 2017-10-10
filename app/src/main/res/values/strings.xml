@@ -13,6 +13,7 @@
     <string name="title_simple_graph">基础图形的绘制</string>
     <string name="title_simple_column">简单直方图的绘制</string>
     <string name="title_simple_curve">简单曲线图的绘制</string>
+    <string name="titile_moji">仿墨迹天气APP</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>
@@ -24,5 +25,6 @@
         <item>Android基本图形的绘制</item>
         <item>简单直方图的绘制</item>
         <item>简单曲线图的绘制</item>
+        <item>仿墨迹天气APP</item>
     </string-array>
 </resources>

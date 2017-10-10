@@ -119,6 +119,7 @@ public class CanvasGraphView extends View {
             height = screenSize[1];
         }
 
+        setMeasuredDimension(width,height);
         Log.e(",,,,", "widthMode:" + widthMode + ",heightMode:" + heightMode + ",widthSize:" + widthSize + ",heightSize:" + heightSize);
     }
 

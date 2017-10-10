@@ -9,7 +9,7 @@ import static com.github.mikephil.charting.utils.ColorTemplate.JOYFUL_COLORS;
 import static com.github.mikephil.charting.utils.ColorTemplate.LIBERTY_COLORS;
 
 /**
- * @Annotation <p>基本几何图形的绘制</p>
+ * @Annotation <p>简单直方图的绘制</p>
  * @Auth Sunny
  * @date 2017/9/2
  * @Version V1.0.0
@@ -47,6 +47,7 @@ public class SimpleColumnActivity extends MukeBaseActivity {
                 {2, LIBERTY_COLORS[0]}};
         mColumnView.setAxisTextSize(20);
         mColumnView.setColumnInfo(columnInfo);
+        mColumnView.setTouchEnable(true);
         mColumnView.invalidate();
     }
 }
