@@ -3,7 +3,10 @@ package chart.muke.com.mukechart.actualchart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -108,24 +111,6 @@ public class WeatherView extends View {
         super.onDraw(canvas);
         canvas.drawColor(0xFF4F4A4F);
         drawAir(canvas);
-
-        Paint paint = new Paint();
-        paint.setColor(0xFF28A77F);
-
-        RectF rectF = new RectF();
-        rectF.left = 100;
-        rectF.right = 400;
-        rectF.top = 100;
-        rectF.bottom = 400;
-
-        canvas.drawRect(rectF, paint);//DST
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        paint.setColor(Color.RED);
-        canvas.drawRoundRect(rectF, 50, 50, paint);//SRC
-        paint.setXfermode(null);
-        int sc = canvas.saveLayer(0, 0, mViewWidth, mViewHeight, null, Canvas.ALL_SAVE_FLAG);
-        canvas.restoreToCount(sc);
-
     }
 
     @Override
@@ -150,12 +135,24 @@ public class WeatherView extends View {
             rectF.top = mAirOffestY;
             rectF.right = mAirCellWidth * (i + 1) + mAirPadding * i;
             rectF.bottom = mAirOffestY + mAirCellHeight;
-            canvas.drawRect(rectF, mAirPaint);
-            mAirPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-            canvas.drawRoundRect(rectF, 5, 5, mAirPaint);
-            //再画圆角矩形
-            mAirPaint.setXfermode(null);
-            //最后进行合并
+            Path path = new Path();
+
+            path.moveTo(rectF.left,rectF.bottom);
+            path.lineTo(rectF.left,rectF.bottom - 20);
+            //画左角弧形
+            RectF roundAngle = new RectF(rectF.left,rectF.top,(rectF.left+12),(rectF.top+12));
+            path.arcTo(roundAngle,180,90);
+            //再画直线
+            path.lineTo(rectF.right-6,rectF.top);
+            //再画右角弧形
+            RectF roundAngleRight = new RectF(rectF.right - 12,rectF.top,rectF.right,rectF.top + 12);
+            path.arcTo(roundAngleRight,270,90);
+            //再画直线
+            path.lineTo(rectF.right,rectF.bottom);
+            path.close();
+
+            mAirPaint.setPathEffect(new CornerPathEffect(1));
+            canvas.drawPath(path,mAirPaint);
         }
     }
 }
