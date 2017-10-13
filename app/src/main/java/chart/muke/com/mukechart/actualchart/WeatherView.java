@@ -6,15 +6,7 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathEffect;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Xfermode;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +42,7 @@ public class WeatherView extends View {
     private Paint mAirPaint;
     private Paint mWindPaint;
     private Paint mWeatherPaint;
+    private Paint mTextPaint;//画数值
 
 
     /**
@@ -66,6 +59,8 @@ public class WeatherView extends View {
 
     private int mPadding = 15;//view边距
 
+    private float mScrollDistance;
+
     public WeatherView(Context context) {
         this(context, null);
     }
@@ -80,12 +75,24 @@ public class WeatherView extends View {
         initView();
     }
 
+    public float getScrollDistance() {
+        return mScrollDistance;
+    }
+
+    public void setScrollDistance(float mScrollDistance) {
+        this.mScrollDistance = mScrollDistance;
+    }
+
     private void initView() {
 
         mAirPaint = new Paint();
         mAirPaint.setColor(0xFF28A77F);
         mAirPaint.setDither(true);
         mAirPaint.setAntiAlias(true);
+
+        mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setTextSize(18);
     }
 
 
@@ -153,6 +160,14 @@ public class WeatherView extends View {
 
             mAirPaint.setPathEffect(new CornerPathEffect(1));
             canvas.drawPath(path,mAirPaint);
+
+            //画数值
+            if (i == 0){
+
+                float textX = rectF.left ;
+                float textY = rectF.top - mPadding;
+                canvas.drawText("38",textX,textY,mTextPaint);
+            }
         }
     }
 }

@@ -50,6 +50,7 @@
     </LinearLayout>
 
     <HorizontalScrollView
+        android:id="@+id/moji_hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_tag"
