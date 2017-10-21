@@ -39,8 +39,11 @@ public class ColorTemplate {
             Color.rgb(42, 109, 130)
     };
     public static final int[] JOYFUL_COLORS = {
-            Color.rgb(217, 80, 138), Color.rgb(254, 149, 7), Color.rgb(254, 247, 120),
-            Color.rgb(106, 167, 134), Color.rgb(53, 194, 209)
+            Color.rgb(217, 80, 138),
+            Color.rgb(254, 149, 7),
+            Color.rgb(254, 247, 120),
+            Color.rgb(106, 167, 134),
+            Color.rgb(53, 194, 209)
     };
     public static final int[] PASTEL_COLORS = {
             Color.rgb(64, 89, 128), Color.rgb(149, 165, 124), Color.rgb(217, 184, 162),

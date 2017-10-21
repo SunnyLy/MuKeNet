@@ -5,13 +5,44 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
+    <RelativeLayout
         android:id="@+id/weather_tag"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="24小时天气预报"
-        tools:ignore="HardcodedText" />
+        android:background="#FF213442"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="24小时天气预报"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/sunrise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/sunrise"
+            android:text="06:23"
+            android:textColor="@android:color/white"
+            android:layout_toLeftOf="@+id/sunset"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:id="@+id/sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/sunset"
+            android:text="17:55"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/weather_left"
@@ -28,7 +59,7 @@
             android:layout_gravity="bottom"
             android:paddingTop="22dp"
             android:gravity="center"
-            android:text="37°C"
+            android:text="26°C"
             android:textColor="@android:color/white" />
 
         <TextView
@@ -36,25 +67,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:paddingTop="97dp"
-            android:text="27°C"
+            android:paddingTop="39dp"
+            android:text="21°C"
             android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:gravity="center"
+            android:gravity="bottom|center"
             android:text="空气"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <HorizontalScrollView
+    <chart.muke.com.mukechart.actualchart.MukeHorizontalScrollView
         android:id="@+id/moji_hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_tag"
         android:layout_toRightOf="@+id/weather_left"
+        android:background="#FF4F4A4F"
         android:scrollbars="none"
         >
         <LinearLayout
@@ -66,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="186dp"/>
         </LinearLayout>
-    </HorizontalScrollView>
+    </chart.muke.com.mukechart.actualchart.MukeHorizontalScrollView>
 
     
     

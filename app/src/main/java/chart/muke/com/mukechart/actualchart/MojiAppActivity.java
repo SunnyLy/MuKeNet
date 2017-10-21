@@ -1,5 +1,6 @@
 package chart.muke.com.mukechart.actualchart;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 
@@ -18,9 +19,12 @@ import chart.muke.com.mukechart.base.MukeBaseActivity;
  * @Annotation 仿墨迹天气App
  *            实现24小时天气预报曲线
  */
-public class MojiAppActivity extends MukeBaseActivity {
+public class MojiAppActivity extends MukeBaseActivity implements MukeHorizontalScrollView.OnScrollChangedListener{
 
-    private HorizontalScrollView mHSV;
+    private MukeHorizontalScrollView mHSV;
+
+    private WeatherView mWeatherView;
+
     @Override
     public int getLayoutId() {
         setTitle(R.string.titile_moji);
@@ -29,10 +33,20 @@ public class MojiAppActivity extends MukeBaseActivity {
 
     @Override
     public void onContentChanged() {
-        mHSV = (HorizontalScrollView) findViewById(R.id.moji_hsv);
+        mHSV = (MukeHorizontalScrollView) findViewById(R.id.moji_hsv);
+        mHSV.setScrollListener(this);
+
+        mWeatherView = (WeatherView) findViewById(R.id.weather_view);
     }
 
     @Override
     protected void initParams() {
+    }
+
+    @Override
+    public void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy,int offset,int maxOffset) {
+
+        mWeatherView.setScrollDistance(scrollView.getScrollX(),offset,maxOffset);
+
     }
 }

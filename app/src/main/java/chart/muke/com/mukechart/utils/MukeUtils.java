@@ -57,4 +57,14 @@ public class MukeUtils {
         int width = display.getWidth();
         return new int[]{width,height};
     }
+
+    public static int getScreenWidth(Context context){
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.widthPixels;
+    }
+
+    public static int getScreenHeight(Context context){
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.heightPixels;
+    }
 }
