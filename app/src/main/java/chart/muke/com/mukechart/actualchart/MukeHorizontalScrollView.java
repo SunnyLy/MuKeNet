@@ -48,11 +48,6 @@ public class MukeHorizontalScrollView extends HorizontalScrollView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
-    @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         int offset = computeHorizontalScrollOffset();//ScrollView滚动条的偏移量
@@ -60,10 +55,10 @@ public class MukeHorizontalScrollView extends HorizontalScrollView {
         //computeHorizontalScrollRange():水平方向上，ScrollView可滚动的范围区间
         int maxOffset = computeHorizontalScrollRange() - MukeUtils.getScreenWidth(context);
         if (mScrollListener != null)
-            mScrollListener.onScrollChanged(this,l,t,oldl,oldt,offset,maxOffset);
+            mScrollListener.onScrollChanged(this,offset,maxOffset);
     }
 
     public interface OnScrollChangedListener{
-        void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy,int offset,int maxOffest);
+        void onScrollChanged(HorizontalScrollView scrollView,int offset,int maxOffest);
     }
 }

@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -52,7 +53,6 @@ public class WeatherView extends View {
 
     /***各画笔**/
     private Paint mAirPaint;
-    private Paint mWindPaint;
     private Paint mWeatherPaint;
     private Paint mWeatherDrawablePaint;
     private Paint mTextPaint;//画数值
@@ -70,13 +70,11 @@ public class WeatherView extends View {
     private int mAirOffestX;
     private int mAirOffestY;
 
-    private int mPadding = 15;//view边距
+    private int mPadding = 30;//view边距
+    private int mPaddingBottem = 15;
 
     private float mScrollDistance;
-    private int mCellNum;//滑动选中的滑块位置
     private int mCurrentIndex = 0;
-    private  float mStartX;
-    private  float mStartY;
     private static final int ITEM_SIZE = 24;
     private int offset;
     private int maxOffset;
@@ -86,18 +84,19 @@ public class WeatherView extends View {
     private static final int bottomTextHeight = 60;
     private int maxTemp = 26;
     private int minTemp = 21;
-    private int maxWindy = 5;
-    private int minWindy = 2;
+    private int mCellNum;
+    private float mStartX;
     private static final int TEMP[] = {24, 25, 26, 26, 26,
             26, 25, 24, 23, 23,
             23, 22, 22, 22, 22,
             22, 22, 21, 21, 21,
             21, 22, 23, 23};
-    private static final int WINDY[] = {2, 2, 3, 3, 3,
-            4, 4, 4, 3, 3,
-            3, 4, 4, 4, 4,
-            2, 2, 2, 3, 3,
-            3, 5, 5, 5};
+
+    private static final int AIR_VALUE[] = {102, 100, 93, 93, 83,
+            74, 74, 60, 53, 53,
+            43, 44, 44, 54, 64,
+            32, 32, 22, 33, 33,
+            33, 35, 35, 30};
     private static final int WEATHER_RES[] ={R.mipmap.w0, R.mipmap.w1, R.mipmap.w3, -1, -1
             ,R.mipmap.w5, R.mipmap.w7, R.mipmap.w9, -1, -1
             ,-1, R.mipmap.w10, R.mipmap.w15, -1, -1
@@ -141,7 +140,7 @@ public class WeatherView extends View {
         mCellNum = num>23?23:num;
 //        Log.e("sunny:","num="+num+",mCellNum="+mCellNum);
 
-        int index = calculateItemIndex();
+        int index = calculateItemIndex(offset);
         Log.e("sunny:","curIndex="+index);
         mCurrentIndex = index;//滚动后对应的当前空气View所在位置
         this.offset = offset;
@@ -150,14 +149,15 @@ public class WeatherView extends View {
     }
 
     //通过滚动条偏移量计算当前选择的时刻
-    private int calculateItemIndex(){
+    private int calculateItemIndex(int offset){
         int x = getScrollBarX();//X轴上滚动的距离
-        int sum = mPadding+mAirCellWidth/2;//判断滚动
+        int sum = mPadding-mAirCellWidth/2;//判断滚动
         for(int i=0; i<ITEM_SIZE; i++){
-            if (i==0)
-            sum += mAirCellWidth/2;
-            else
-                sum += mAirCellWidth/2 + mPadding;
+          //  if (i==0)
+            sum += mAirCellWidth + mAirPadding;
+//            else
+//                sum += mAirCellWidth/2 + mPadding;
+            Log.e("sunny:","scrollbarX:"+x+",sum="+sum+",i="+i);
             if(x < sum){
                 return i;
             }
@@ -259,7 +259,7 @@ public class WeatherView extends View {
      */
     private void drawAir(Canvas canvas) {
         mAirOffestX = mPadding;
-        mAirOffestY = getHeight() - mPadding;
+        mAirOffestY = getHeight() - mPaddingBottem;
 
         Path weatherPath = new Path();
         Path weatherDrawablePath = new Path();//天气图片
@@ -269,7 +269,8 @@ public class WeatherView extends View {
             RectF rectF = new RectF();
             rectF.left = mAirOffestX + (mAirCellWidth + mAirPadding) * i;
             rectF.top = mAirOffestY;
-            rectF.right = mAirCellWidth * (i + 1) + mAirPadding * i;
+//            rectF.right = mAirCellWidth * (i + 1) + mAirPadding * i;
+            rectF.right = rectF.left + mAirCellWidth -1 ;
             rectF.bottom = mAirOffestY + mAirCellHeight;
             Path path = new Path();
 
@@ -296,8 +297,9 @@ public class WeatherView extends View {
             }
             canvas.drawPath(path,mAirPaint);
 
-            //画天气图片
-          //  drawWeatherPic(rectF,weatherDrawablePath,i);
+            //画空气值Text
+            drawAirValueText(canvas,rectF,i);
+
             //画温度曲线
             drawTempCurve(rectF,weatherPath,i);
         }
@@ -316,9 +318,35 @@ public class WeatherView extends View {
        // drawWeatherInfo(weatherPath);
 
         mStartX = mAirOffestX + mScrollDistance;
-        canvas.drawText("38",mPadding + getScrollBarX(),mStartY,mTextPaint);
+      //  canvas.drawText("38",mPadding + getScrollBarX(),mStartY,mTextPaint);
 
 
+    }
+
+    private void drawAirValueText(Canvas canvas, RectF rect, int i) {
+        //画出box上面的风力提示文字
+        Rect targetRect = new Rect();
+        if (i == 0){
+            //最左边
+            targetRect.left = mPadding;
+            targetRect.right = mPadding+mAirCellWidth;
+        }else if (i == ITEM_SIZE -1){
+            //最右边
+            targetRect.left = getScrollBarX();
+            targetRect.right = mViewWidth - mPadding - mAirCellWidth-mAirCellWidth/2;
+        } else{
+            targetRect.left = getScrollBarX();
+            targetRect.right = getScrollBarX() + mAirCellWidth;
+        }
+        targetRect.top = (int) rect.top - MukeUtils.dp2px(20);
+        targetRect.bottom = (int) rect.top - MukeUtils.dp2px(0);
+//        Rect targetRect = new Rect(getScrollBarX(), (int) rect.top - MukeUtils.dp2px(20)
+//                , getScrollBarX() + mAirCellWidth, (int) rect.top - MukeUtils.dp2px(0));
+        Paint.FontMetricsInt fontMetrics = mTextPaint.getFontMetricsInt();
+        int baseline = (targetRect.bottom + targetRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
+        if (i == mCurrentIndex)
+        canvas.drawText(""+AIR_VALUE[i], targetRect.centerX(), baseline, mTextPaint);
     }
 
     private void drawMinCloud(Canvas canvas, Path weatherDrawablePath) {
@@ -331,10 +359,16 @@ public class WeatherView extends View {
         canvas.drawPath(weatherDrawablePath,mWeatherDrawablePaint);
 
         Drawable drawable = ContextCompat.getDrawable(getContext(), WEATHER_RES[0]);
-        drawable.setBounds(mAirOffestX+mAirCellWidth,
-                (getTop() - getPaddingTop() + 250),
-                mAirOffestX+(mAirCellWidth*2 + mAirPadding) ,
-                (getTop() - getPaddingTop() + 300));
+        int radius = mAirCellWidth/2;
+        int width = mAirCellWidth*2 + mAirPadding;
+        int left =  width/2;
+        int right = left + radius*2;
+        int top = (getTop() - getPaddingTop() + 300) - radius*2;
+        int bottom = (getTop() - getPaddingTop() + 300);
+        drawable.setBounds(left,
+                top,
+                right,
+                bottom);
         drawable.draw(canvas);
     }
 
@@ -383,7 +417,7 @@ public class WeatherView extends View {
         mWeatherPaint.setColor(Color.WHITE);
         Point point = mWeatherPoints.get(i);
         //因为是画曲线，用CornerPathEffect()会更圆滑
-        CornerPathEffect pathEffect = new CornerPathEffect(10);
+        CornerPathEffect pathEffect = new CornerPathEffect(50);
         mWeatherPaint.setPathEffect(pathEffect);
         mWeatherPaint.setDither(true);
         mWeatherPaint.setAntiAlias(true);
@@ -420,9 +454,9 @@ public class WeatherView extends View {
         if (maxOffset <= 0){
             return 0;
         }
-        int x = ((ITEM_SIZE - 1) * mAirCellWidth + (ITEM_SIZE-2)*mPadding )  * offset / maxOffset;
-        x = x + mPadding;
-        return x;
+
+        int x = (ITEM_SIZE - 1) * mAirCellWidth * offset / maxOffset;
+        return x + mPadding;
     }
 
 

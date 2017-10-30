@@ -44,9 +44,14 @@ public class MojiAppActivity extends MukeBaseActivity implements MukeHorizontalS
     }
 
     @Override
-    public void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy,int offset,int maxOffset) {
-
-        mWeatherView.setScrollDistance(scrollView.getScrollX(),offset,maxOffset);
-
+    public void onScrollChanged(HorizontalScrollView scrollView, int offset, int maxOffest) {
+        mWeatherView.setScrollDistance(scrollView.getScrollX(),offset,maxOffest);
     }
+
+//    @Override
+//    public void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy,int offset,int maxOffset) {
+//
+//        mWeatherView.setScrollDistance(scrollView.getScrollX(),offset,maxOffset);
+//
+//    }
 }
