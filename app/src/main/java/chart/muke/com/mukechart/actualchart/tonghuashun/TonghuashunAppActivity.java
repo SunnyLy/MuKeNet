@@ -1,7 +1,9 @@
 package chart.muke.com.mukechart.actualchart.tonghuashun;
 
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.components.Description;
@@ -17,6 +19,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -51,6 +55,8 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
 
     //Y轴右侧的线
     protected YAxis axisRightKline, axisRightVolume, axisRightCharts;
+    private boolean isRefresh = true;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_tonghuashun;
@@ -66,9 +72,10 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
         setTitle(R.string.title_tonghuashun);
 
         mData = new DataCenter();
+        mData.parseKLine();
         initChartKline();
         kLineDatas = mData.getKLineDatas();
-        Toast.makeText(this, "kLinesDatas:"+kLineDatas.size(), Toast.LENGTH_SHORT).show();
+        Logger.e("kLinesDatas:"+kLineDatas.size());
         new Thread(){
             @Override
             public void run() {
@@ -79,26 +86,6 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
         }.start();
 
 
-    }
-
-    private CandleData generateCandleData() {
-        return null;
-    }
-
-    /**
-     * 制造柱条数据
-     * @return
-     */
-    private BarData generateBarData() {
-        return null;
-    }
-
-    /**
-     * 制造曲线数据
-     * @return
-     */
-    private LineData generateLineData() {
-        return null;
     }
 
     private void setKLineByChart(MukeCombindedChart combinedChart) {
@@ -130,13 +117,28 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
 
         LineData lineData = new LineData(sets);
 
-        CombinedData combinedData = new CombinedData();
+        CombinedData combinedData = new CombinedData(mData.getXVals());
         combinedData.setData(lineData);
         combinedData.setData(candleData);
         combinedChart.setData(combinedData);
 
-        mChartKline.setData(combinedData);
-//        setHandler(combinedChart);
+//        mChartKline.setData(combinedData);
+        if (isRefresh)
+        setHandler(combinedChart);
+    }
+
+    private void setHandler(MukeCombindedChart combinedChart) {
+        final ViewPortHandler viewPortHandlerBar = combinedChart.getViewPortHandler();
+        viewPortHandlerBar.setMaximumScaleX(culcMaxscale(mData.getXVals().size()));
+        Matrix touchmatrix = viewPortHandlerBar.getMatrixTouch();
+        final float xscale = 3;
+        touchmatrix.postScale(xscale, 1f);
+    }
+
+    private float culcMaxscale(int count) {
+        float max = 1;
+        max = count / 127 * 5;
+        return max;
     }
 
     @NonNull

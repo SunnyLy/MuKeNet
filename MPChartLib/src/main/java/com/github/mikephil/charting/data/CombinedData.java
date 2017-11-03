@@ -23,6 +23,15 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
     private CandleData mCandleData;
     private BubbleData mBubbleData;
 
+    public List<String > mXValues = new ArrayList<>();
+    public CombinedData(List<String> xVals) {
+        super();
+        if (xVals != null && xVals.size() > 0){
+            mXValues.clear();
+            mXValues.addAll(xVals);
+        }
+    }
+
     public CombinedData() {
         super();
     }

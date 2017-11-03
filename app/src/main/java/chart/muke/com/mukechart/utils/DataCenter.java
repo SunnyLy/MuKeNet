@@ -149,10 +149,10 @@ public class DataCenter {
      * @return
      */
     public ArrayList<KLineBean> getKLineDatas() {
-        kDatas.clear();
-        List<KLineBean> data = getCandleDatas();
-        if (data != null && data.size() > 0)
-            kDatas.addAll(data);
+//        kDatas.clear();
+//        List<KLineBean> data = getCandleDatas();
+//        if (data != null && data.size() > 0)
+//            kDatas.addAll(data);
         return kDatas;
     }
     /**
@@ -164,5 +164,39 @@ public class DataCenter {
         return candleEntries;
     }
 
+    /**
+     * 将jsonobject转换为K线数据
+     *
+     */
+    public void parseKLine() {
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(MukeConstant.KLINEURL);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayList<KLineBean> kLineBeans = new ArrayList<>();
+        JSONObject data = obj.optJSONObject("data").optJSONObject("sz002081");
+        JSONArray list = data.optJSONArray("day");
+        if (list != null) {
+            int count = list.length();
+            for (int i = 0; i < count; i++) {
+                JSONArray dayData = list.optJSONArray(i);
+                KLineBean kLineData = new KLineBean();
+                kLineData.mDate = dayData.optString(0);
+                kLineData.mOpenPrice = (float) dayData.optDouble(1);
+                kLineData.mClosePrice = (float) dayData.optDouble(2);
+                kLineData.mShadowHigh = (float) dayData.optDouble(3);
+                kLineData.mShadowLow = (float) dayData.optDouble(4);
+                kLineData.mValue = (float) dayData.optDouble(5);
+
+                kLineBeans.add(kLineData);
+
+                volmax = Math.max(kLineData.mValue, volmax);
+                xValuesLabel.put(i, kLineData.mDate);
+            }
+        }
+        kDatas.addAll(kLineBeans);
+    }
 
 }
