@@ -1,4 +1,4 @@
-package chart.muke.com.mukechart.actualchart;
+package chart.muke.com.mukechart.actualchart.moji;
 
 import java.io.Serializable;
 

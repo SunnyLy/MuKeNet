@@ -382,14 +382,27 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mDrawWebInner;
     }
 
+
+    /**
+     * 自定义在雷达图中间画值
+     * @param drawable
+     */
     public void setDrawCenterValue(boolean drawable) {
         mDrawValueCenter = drawable;
     }
 
+    /**
+     * 是否在中间画值
+     * @return
+     */
     public boolean isDrawValueCenter() {
         return mDrawValueCenter;
     }
 
+    /**
+     * 是否画维度标签图标
+     * @param drawLabelIcon
+     */
     public void setDrawLabelIcon(boolean drawLabelIcon) {
 
         mDrawLabelIcon = drawLabelIcon;
@@ -399,6 +412,10 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mDrawLabelIcon;
     }
 
+    /**
+     * 设置标签图标值
+     * @param drawables
+     */
     public void setLabelIcons(Drawable... drawables){
         if (drawables != null && drawables.length > 0){
             mLabelIcons.clear();

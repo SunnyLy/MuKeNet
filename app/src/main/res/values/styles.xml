@@ -35,4 +35,14 @@
         <!-- 坐标轴的颜色-->
         <attr name="axisColor" format="integer|color|reference"/>
     </declare-styleable>
+
+
+    <declare-styleable name="MukeMarkerView">
+        <!--展示左边markview-->
+        <attr name="showLeftMarker" format="boolean"/>
+        <attr name="showRightMarker" format="boolean"/>
+        <attr name="showBottomMarker" format="boolean"/>
+        <attr name="showTopMarker" format="boolean"/>
+        <attr name="drawMarkerView" format="boolean"/>
+    </declare-styleable>
 </resources>
