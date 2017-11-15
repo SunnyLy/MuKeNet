@@ -1,0 +1,50 @@
+@startuml
+title MPAndroidChart类图
+interface IAxisValueFormatter
+class DefaultValueFormatter{
+}
+abstract Render{
+}
+abstract ComponentBase{
+#mEnable:boolean
+#mXOffset:float
+#mYOffset:float
++setXOffset(float xOffset)
++setYOffset(float yOffset)
+}
+abstract AxisBase{
+#mFormatter:IAxisValueFormatter
++setDrawGridLines(boolen enable)
++setDrawAxisLine(boolean enabled)
++setAxisLineWidth(float width)
++setAxisLineColor(int color)
++setLabelCount(int count)//Y轴标记个数，最多25个最小2个默认6个
++setGranularity(float granularity)//设置图表绽放时轴间的最小粒度
++setValueFormatter(IAxisValueFormatter f)
+}
+enum XAxisPosition{
+TOP
+BOTTOM
+BOTH_SIDED
+TOP_INSIDE
+BOTTOM_INSIDE
+}
+class XAxis{
++mLabelWidth:int
++mLabelHeight:int
++setLabelRotationAngle(float angle)
+}
+class YAxis{
+}
+class LimitLine{
+}
+IAxisValueFormatter ..|> DefaultValueFormatter:implement
+
+ComponentBase --|> LimitLine:extend
+ComponentBase --|> AxisBase:extend
+AxisBase --|> XAxis:extend
+AxisBase --|> YAxis:extend
+AxisBase *-- IAxisValueFormatter:聚合
+note right of AxisBase : 注意两个方法：\n1、setLabelCount()：\nY轴标记个数，最多25个，\n最少2个，默认为6个
+
+@enduml
