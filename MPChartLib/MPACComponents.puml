@@ -35,16 +35,34 @@ class XAxis{
 +setLabelRotationAngle(float angle)
 }
 class YAxis{
++mPosition:YAxisLabelPosition
++mDependency:AxisDependency
+}
+enum YAxisLabelPosition{
+OUTSIDE_CHART
+INSIDE_CHART
+}
+enum AxisDependency{
+LEFT
+RIGHT
 }
 class LimitLine{
 }
-IAxisValueFormatter ..|> DefaultValueFormatter:implement
 
+class Description{
+}
+class Legend{
+}
+class MPPointF{
+}
+IAxisValueFormatter ..|> DefaultValueFormatter:implement
 ComponentBase --|> LimitLine:extend
 ComponentBase --|> AxisBase:extend
 AxisBase --|> XAxis:extend
 AxisBase --|> YAxis:extend
 AxisBase *-- IAxisValueFormatter:聚合
 note right of AxisBase : 注意两个方法：\n1、setLabelCount()：\nY轴标记个数，最多25个，\n最少2个，默认为6个
-
+ComponentBase --|> Description:extend
+Description *-- MPPointF:聚合
+ComponentBase --|> Legend:extend
 @enduml
