@@ -3,6 +3,9 @@ package chart.muke.com.mukechart;
 import android.app.Application;
 import android.content.Context;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+
 /**
  * ------------------------------------------------
  * Copyright © 2014-2017 CLife. All Rights Reserved.
@@ -19,6 +22,7 @@ public class MukeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     @Override

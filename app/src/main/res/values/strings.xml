@@ -14,6 +14,8 @@
     <string name="title_simple_column">简单直方图的绘制</string>
     <string name="title_simple_curve">简单曲线图的绘制</string>
     <string name="titile_moji">仿墨迹天气APP</string>
+    <string name="title_tonghuashun">仿同花顺K线图</string>
+    <string name="title_alipay">仿支付宝芝麻信用分</string>
 
     <string-array name="chart_types">
         <item>MPAC实现直方图</item>
@@ -25,6 +27,8 @@
         <item>Android基本图形的绘制</item>
         <item>简单直方图的绘制</item>
         <item>简单曲线图的绘制</item>
-        <item>仿墨迹天气APP</item>
+        <item>仿墨迹天气温度曲线</item>
+        <item>仿同花顺K线图</item>
+        <item>仿支付宝芝麻信用分</item>
     </string-array>
 </resources>

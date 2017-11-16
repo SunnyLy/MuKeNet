@@ -1,7 +1,5 @@
-package chart.muke.com.mukechart.actualchart;
+package chart.muke.com.mukechart.actualchart.moji;
 
-import android.util.Log;
-import android.view.View;
 import android.widget.HorizontalScrollView;
 
 import chart.muke.com.mukechart.R;
@@ -19,7 +17,7 @@ import chart.muke.com.mukechart.base.MukeBaseActivity;
  * @Annotation 仿墨迹天气App
  *            实现24小时天气预报曲线
  */
-public class MojiAppActivity extends MukeBaseActivity implements MukeHorizontalScrollView.OnScrollChangedListener{
+public class MojiAppActivity extends MukeBaseActivity implements MukeHorizontalScrollView.OnScrollChangedListener {
 
     private MukeHorizontalScrollView mHSV;
 

@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MukeApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
             android:theme="@style/ActivityTheme">
@@ -33,7 +34,9 @@
         <activity android:name=".basicgraph.SimpleGraphActivity"/>
         <activity android:name=".basicgraph.SimpleColumnActivity"/>
         <activity android:name=".basicgraph.SimpleCurveActivity"/>
-        <activity android:name=".actualchart.MojiAppActivity"/>
+        <activity android:name=".actualchart.moji.MojiAppActivity"/>
+        <activity android:name=".actualchart.tonghuashun.TonghuashunAppActivity"/>
+        <activity android:name=".actualchart.AlipayAppActivity"/>
     </application>
 
 </manifest>

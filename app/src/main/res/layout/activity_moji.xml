@@ -80,7 +80,7 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <chart.muke.com.mukechart.actualchart.MukeHorizontalScrollView
+    <chart.muke.com.mukechart.actualchart.moji.MukeHorizontalScrollView
         android:id="@+id/moji_hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,12 +93,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <chart.muke.com.mukechart.actualchart.WeatherView
+            <chart.muke.com.mukechart.actualchart.moji.WeatherView
                 android:id="@+id/weather_view"
                 android:layout_width="wrap_content"
                 android:layout_height="186dp"/>
         </LinearLayout>
-    </chart.muke.com.mukechart.actualchart.MukeHorizontalScrollView>
+    </chart.muke.com.mukechart.actualchart.moji.MukeHorizontalScrollView>
 
     
     
