@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import chart.muke.com.mukechart.actualchart.tonghuashun.KLineBean;
+import chart.muke.com.mukechart.actualchart.tonghuashun.KLineBean2;
 import chart.muke.com.mukechart.actualchart.tonghuashun.KMAEntity;
 import chart.muke.com.mukechart.constant.MukeConstant;
 
@@ -33,7 +33,7 @@ public class DataCenter {
     private float volmax;
     private SparseArray<String> xValuesLabel = new SparseArray<>();
 
-    private ArrayList<KLineBean> kDatas = new ArrayList<>();
+    private ArrayList<KLineBean2> kDatas = new ArrayList<>();
     private ArrayList<CandleEntry> candleEntries = new ArrayList<>();//K线数据
     private ArrayList<String> xVals = new ArrayList<>();//X轴数据
     private ArrayList<BarEntry> barEntries = new ArrayList<>();//成交量数据
@@ -47,9 +47,9 @@ public class DataCenter {
         return xVals;
     }
 
-    public  List<KLineBean> getCandleDatas(){
+    public List<KLineBean2> getCandleDatas() {
 
-        List<KLineBean> candleBeans = new ArrayList<>();
+        List<KLineBean2> candleBeans = new ArrayList<>();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(MukeConstant.KLINEURL);
@@ -61,7 +61,7 @@ public class DataCenter {
                 xValuesLabel.clear();
                 for (int i = 0; i < count; i++) {
                     JSONArray dayData = list.optJSONArray(i);
-                    KLineBean candleBean = new KLineBean();
+                    KLineBean2 candleBean = new KLineBean2();
                     candleBean.mDate = dayData.optString(0);
                     candleBean.mOpenPrice = (float) dayData.optDouble(1);
                     candleBean.mClosePrice = (float) dayData.optDouble(2);
@@ -83,7 +83,7 @@ public class DataCenter {
     }
 
     //得到成交量
-    public void initLineDatas(ArrayList<KLineBean> datas) {
+    public void initLineDatas(ArrayList<KLineBean2> datas) {
         if (null == datas) {
             return;
         }
@@ -92,7 +92,7 @@ public class DataCenter {
         candleEntries.clear();//K线数据
         for (int i = 0, j = 0; i < datas.size(); i++, j++) {
             xVals.add(datas.get(i).mDate + "");
-            barEntries.add(new BarEntry(i,new float[]{datas.get(i).mShadowHigh,datas.get(i).mShadowLow,
+            barEntries.add(new BarEntry(i, new float[]{datas.get(i).mShadowHigh, datas.get(i).mShadowLow,
                     datas.get(i).mOpenPrice, datas.get(i).mClosePrice, datas.get(i).mValue}));
             candleEntries.add(new CandleEntry(i, datas.get(i).mShadowHigh, datas.get(i).mShadowLow,
                     datas.get(i).mOpenPrice, datas.get(i).mClosePrice));
@@ -104,24 +104,24 @@ public class DataCenter {
      *
      * @param datas
      */
-    public void initKLineMA(ArrayList<KLineBean> datas) {
+    public void initKLineMA(ArrayList<KLineBean2> datas) {
         if (null == datas) {
             return;
         }
-        ma5DataL  .clear();
-        ma10DataL .clear();
-        ma20DataL .clear();
-        ma30DataL .clear();
+        ma5DataL.clear();
+        ma10DataL.clear();
+        ma20DataL.clear();
+        ma30DataL.clear();
 
         KMAEntity kmaEntity5 = new KMAEntity(datas, 5);
         KMAEntity kmaEntity10 = new KMAEntity(datas, 10);
         KMAEntity kmaEntity20 = new KMAEntity(datas, 20);
         KMAEntity kmaEntity30 = new KMAEntity(datas, 30);
         for (int i = 0; i < kmaEntity5.getMAs().size(); i++) {
-            ma5DataL.add(new Entry(kmaEntity5.getMAs().get(i), i));
-            ma10DataL.add(new Entry(kmaEntity10.getMAs().get(i), i));
-            ma20DataL.add(new Entry(kmaEntity20.getMAs().get(i), i));
-            ma30DataL.add(new Entry(kmaEntity30.getMAs().get(i), i));
+            ma5DataL.add(new Entry(i, kmaEntity5.getMAs().get(i)));
+            ma10DataL.add(new Entry(i, kmaEntity10.getMAs().get(i)));
+            ma20DataL.add(new Entry(i, kmaEntity20.getMAs().get(i)));
+            ma30DataL.add(new Entry(i, kmaEntity30.getMAs().get(i)));
         }
 
     }
@@ -148,13 +148,14 @@ public class DataCenter {
      *
      * @return
      */
-    public ArrayList<KLineBean> getKLineDatas() {
+    public ArrayList<KLineBean2> getKLineDatas() {
 //        kDatas.clear();
-//        List<KLineBean> data = getCandleDatas();
+//        List<KLineBean2> data = getCandleDatas();
 //        if (data != null && data.size() > 0)
 //            kDatas.addAll(data);
         return kDatas;
     }
+
     /**
      * 得到K线数据
      *
@@ -166,7 +167,6 @@ public class DataCenter {
 
     /**
      * 将jsonobject转换为K线数据
-     *
      */
     public void parseKLine() {
         JSONObject obj = null;
@@ -175,14 +175,14 @@ public class DataCenter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ArrayList<KLineBean> kLineBeans = new ArrayList<>();
+        ArrayList<KLineBean2> kLineBeans = new ArrayList<>();
         JSONObject data = obj.optJSONObject("data").optJSONObject("sz002081");
         JSONArray list = data.optJSONArray("day");
         if (list != null) {
             int count = list.length();
             for (int i = 0; i < count; i++) {
                 JSONArray dayData = list.optJSONArray(i);
-                KLineBean kLineData = new KLineBean();
+                KLineBean2 kLineData = new KLineBean2();
                 kLineData.mDate = dayData.optString(0);
                 kLineData.mOpenPrice = (float) dayData.optDouble(1);
                 kLineData.mClosePrice = (float) dayData.optDouble(2);

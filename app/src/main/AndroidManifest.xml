@@ -37,6 +37,7 @@
         <activity android:name=".actualchart.moji.MojiAppActivity"/>
         <activity android:name=".actualchart.tonghuashun.TonghuashunAppActivity"/>
         <activity android:name=".actualchart.AlipayAppActivity"/>
+        <activity android:name=".actualchart.tonghuashun.demo.KLineActivity"/>
     </application>
 
 </manifest>

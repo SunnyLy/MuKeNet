@@ -16,6 +16,7 @@ import java.util.Map;
 import chart.muke.com.mukechart.actualchart.AlipayAppActivity;
 import chart.muke.com.mukechart.actualchart.moji.MojiAppActivity;
 import chart.muke.com.mukechart.actualchart.tonghuashun.TonghuashunAppActivity;
+import chart.muke.com.mukechart.actualchart.tonghuashun.demo.KLineActivity;
 import chart.muke.com.mukechart.basicchart.BarChartActivity;
 import chart.muke.com.mukechart.basicchart.CurveChartActivity;
 import chart.muke.com.mukechart.basicchart.KChartActivity;
@@ -84,6 +85,7 @@ public class MainActivity extends ListActivity {
                         MukeRouter.jump2target(MainActivity.this, MojiAppActivity.class);
                         break;
                     case 10:
+//                        MukeRouter.jump2target(MainActivity.this, KLineActivity.class);
                         MukeRouter.jump2target(MainActivity.this, TonghuashunAppActivity.class);
                         break;
                     case 11:

@@ -1,16 +1,14 @@
 package chart.muke.com.mukechart.actualchart.tonghuashun;
 
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CombinedData;
@@ -23,8 +21,10 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import chart.muke.com.mukechart.R;
+import chart.muke.com.mukechart.actualchart.tonghuashun.demo.KLineBean;
 import chart.muke.com.mukechart.base.MukeBaseActivity;
 import chart.muke.com.mukechart.utils.DataCenter;
 
@@ -45,7 +45,7 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
 
     private DataCenter mData;
     //K线图数据
-    private ArrayList<KLineBean> kLineDatas;
+    private ArrayList<KLineBean2> kLineDatas;
 
     //X轴标签的类
     protected XAxis xAxisKline, xAxisVolume, xAxisCharts;
@@ -74,12 +74,13 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
         mData = new DataCenter();
         mData.parseKLine();
         initChartKline();
+        initChartsParams();
         kLineDatas = mData.getKLineDatas();
-        Logger.e("kLinesDatas:"+kLineDatas.size());
         new Thread(){
             @Override
             public void run() {
                 super.run();
+//                setKLineDatas();
                 setKLineByChart(mChartKline);
                 mChartKline.invalidate();
             }
@@ -88,26 +89,76 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
 
     }
 
-    private void setKLineByChart(MukeCombindedChart combinedChart) {
-        CandleDataSet set = new CandleDataSet(mData.getCandleEntries(), "");
-        set.setDrawHorizontalHighlightIndicator(false);
-        set.setHighlightEnabled(true);
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setShadowWidth(1f);
-        set.setValueTextSize(10f);
-        set.setDecreasingColor(getResources().getColor(R.color.decreasing_color));//设置开盘价高于收盘价的颜色
-        set.setDecreasingPaintStyle(Paint.Style.FILL);
-        set.setIncreasingColor(getResources().getColor(R.color.increasing_color));//设置开盘价地狱收盘价的颜色
-        set.setIncreasingPaintStyle(Paint.Style.STROKE);
-        set.setNeutralColor(getResources().getColor(R.color.decreasing_color));//设置开盘价等于收盘价的颜色
-        set.setShadowColorSameAsCandle(true);
-        set.setHighlightLineWidth(1f);
-        set.setHighLightColor(getResources().getColor(R.color.marker_line_bg));
-        set.setDrawValues(true);
-        set.setValueTextColor(getResources().getColor(R.color.marker_text_bg));
-        CandleData candleData = new CandleData(set);
+    private void setKLineDatas() {
+        List<KLineBean2> kLineBeans = mData.getKLineDatas();
+        if (kLineBeans != null && kLineBeans.size() > 0){
 
-        mData.initKLineMA(kLineDatas);
+            kLineDatas.clear();
+            kLineDatas.addAll(kLineBeans);
+        }
+        mData.initLineDatas(mData.getKLineDatas());
+    }
+
+    /**
+     * 初始化图表的相关配置
+     */
+    private void initChartsParams() {
+        mChartKline.setScaleEnabled(true);//启用图表缩放事件
+        mChartKline.setDrawBorders(true);//是否绘制边线
+        mChartKline.setBorderWidth(1);//边线宽度，单位dp
+        mChartKline.setDragEnabled(true);//启用图表拖拽事件
+        mChartKline.setScaleYEnabled(false);//启用Y轴上的缩放
+        mChartKline.setBorderColor(getResources().getColor(R.color.border_color));//边线颜色
+//        mChartCharts.setDescription("");//右下角对图表的描述信息
+        mChartKline.setMinOffset(0f);
+        mChartKline.setExtraOffsets(0f, 0f, 0f, 3f);
+
+        Legend lineChartLegend = mChartKline.getLegend();
+        lineChartLegend.setEnabled(false);//是否绘制 Legend 图例
+
+//        //bar x y轴
+        xAxisCharts = mChartKline.getXAxis();
+        xAxisCharts.setEnabled(true);
+
+        //左边Y轴
+        axisLeftCharts = mChartKline.getAxisLeft();
+        axisLeftCharts.setDrawGridLines(false);
+        axisLeftCharts.setDrawAxisLine(true);
+        axisLeftCharts.setDrawLabels(true);
+        axisLeftCharts.enableGridDashedLine(10f, 10f, 0f);
+//        axisLeftCharts.setTextColor(getResources().getColor(R.color.text_color_common));
+        axisLeftCharts.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);//Y轴刻度显示在坐标轴左侧
+//        axisLeftCharts.setLabelCount(1, false); //第一个参数是Y轴坐标的个数，第二个参数是 是否不均匀分布，true是不均匀分布
+
+        //右边Y轴
+        axisRightCharts = mChartKline.getAxisRight();
+        axisRightCharts.setDrawLabels(false);
+        axisRightCharts.setDrawGridLines(false);
+        axisRightCharts.setDrawAxisLine(true);
+
+        mChartKline.setDragDecelerationEnabled(true);
+        mChartKline.setDragDecelerationFrictionCoef(0.2f);
+
+        mChartKline.animateXY(2000, 2000);
+    }
+
+    private void setKLineByChart(MukeCombindedChart combinedChart) {
+        Logger.e("CandleData:"+mData.getCandleDatas().size());
+
+        mData.initKLineMA(mData.getKLineDatas());
+        CombinedData combinedData = new CombinedData(mData.getXVals());
+        combinedData.setData(generateLineDatas());
+        combinedData.setData(generateCandleDatas());
+        combinedChart.setData(combinedData);
+        setHandler(combinedChart);
+    }
+
+    /**
+     * 生成曲线数据
+     * @return
+     */
+    private LineData generateLineDatas() {
+
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         /******此处修复如果显示的点的个数达不到MA均线的位置所有的点都从0开始计算最小值的问题******************************/
         sets.add(setMaLine(5, mData.getXVals(), mData.getMa5DataL()));
@@ -116,15 +167,84 @@ public class TonghuashunAppActivity extends MukeBaseActivity {
         sets.add(setMaLine(30, mData.getXVals(), mData.getMa30DataL()));
 
         LineData lineData = new LineData(sets);
+//        LineData lineData = new LineData();
+//
+//        //五分钟曲线
+//        LineDataSet ma5DS = new LineDataSet(mData.getMa5DataL(),"ma5LineDataSet");
+//        ma5DS.setColor(getResources().getColor(R.color.ma5));
+//        ma5DS.setLineWidth(1.5f);
+//        ma5DS.setDrawCircles(false);
+//        ma5DS.setFillColor(Color.GRAY);
+//        ma5DS.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+//        ma5DS.setDrawValues(true);
+//        ma5DS.setValueTextSize(10f);
+//        ma5DS.setValueTextColor(Color.rgb(240, 238, 70));
+//        ma5DS.setAxisDependency(YAxis.AxisDependency.LEFT);
+//
+//        //十分钟曲线
+//        LineDataSet ma10DS = new LineDataSet(mData.getMa10DataL(),"ma10LineDataSet");
+//        ma10DS.setColor(getResources().getColor(R.color.ma10));
+//        ma10DS.setLineWidth(1.5f);
+//        ma10DS.setFillColor(Color.BLUE);
+//        ma10DS.setDrawCircles(false);
+//        ma10DS.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+//        ma10DS.setDrawValues(true);
+//        ma10DS.setValueTextSize(10f);
+//        ma10DS.setValueTextColor(Color.rgb(240, 238, 70));
+//        ma10DS.setAxisDependency(YAxis.AxisDependency.LEFT);
+//
+//        //20分钟曲线
+//        LineDataSet ma20DS = new LineDataSet(mData.getMa20DataL(),"ma20LineDataSet");
+//        ma20DS.setColor(getResources().getColor(R.color.ma20));
+//        ma20DS.setLineWidth(1.5f);
+//        ma20DS.setFillColor(Color.BLACK);
+//        ma20DS.setDrawCircles(false);
+//        ma20DS.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+//        ma20DS.setDrawValues(true);
+//        ma20DS.setValueTextSize(10f);
+//        ma20DS.setValueTextColor(Color.rgb(240, 238, 70));
+//        ma20DS.setAxisDependency(YAxis.AxisDependency.LEFT);
+//
+//        //30分钟曲线
+//        LineDataSet ma30DS = new LineDataSet(mData.getMa30DataL(),"ma30LineDataSet");
+//        ma30DS.setColor(getResources().getColor(R.color.ma30));
+//        ma30DS.setLineWidth(1.5f);
+//        ma30DS.setFillColor(Color.RED);
+//        ma30DS.setDrawCircles(false);
+//        ma30DS.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+//        ma30DS.setDrawValues(true);
+//        ma30DS.setValueTextSize(10f);
+//        ma30DS.setValueTextColor(Color.rgb(240, 238, 70));
+//        ma30DS.setAxisDependency(YAxis.AxisDependency.LEFT);
+//
+//        lineData.addDataSet(ma5DS);
+//        lineData.addDataSet(ma10DS);
+//        lineData.addDataSet(ma20DS);
+//        lineData.addDataSet(ma30DS);
+        return lineData;
+    }
 
-        CombinedData combinedData = new CombinedData(mData.getXVals());
-        combinedData.setData(lineData);
-        combinedData.setData(candleData);
-        combinedChart.setData(combinedData);
-
-//        mChartKline.setData(combinedData);
-        if (isRefresh)
-        setHandler(combinedChart);
+    //生成阴线与阳线数据
+    private CandleData generateCandleDatas() {
+        CandleDataSet set = new CandleDataSet(mData.getCandleEntries(), "");
+        set.setDrawHorizontalHighlightIndicator(false);
+        set.setHighlightEnabled(true);
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setShadowWidth(1f);
+        set.setValueTextSize(10f);
+        set.setDecreasingColor(getResources().getColor(R.color.decreasing_color));//设置开盘价高于收盘价的颜色
+        set.setDecreasingPaintStyle(Paint.Style.FILL);
+        set.setIncreasingColor(getResources().getColor(R.color.increasing_color));//设置开盘价低于收盘价的颜色
+        set.setIncreasingPaintStyle(Paint.Style.STROKE);
+        set.setNeutralColor(Color.WHITE);//设置开盘价等于收盘价的颜色
+        set.setShadowColorSameAsCandle(true);
+        set.setHighlightLineWidth(1f);
+        set.setHighLightColor(getResources().getColor(R.color.marker_line_bg));
+        set.setDrawValues(true);
+        set.setValueTextColor(getResources().getColor(R.color.marker_text_bg));
+        CandleData candleData = new CandleData();
+        candleData.addDataSet(set);
+        return candleData;
     }
 
     private void setHandler(MukeCombindedChart combinedChart) {

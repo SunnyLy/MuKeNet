@@ -4,6 +4,19 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- top -->
+    <color name="common_gray_bg">#F5F5F5</color>
+
+    <!-- text-->
+    <color name="text_color_common">#666666</color>
+    <color name="text_color_red">#FF0000</color>
+    <color name="text_color_orange">#FCAE05</color>
+    <color name="text_color_maroon">#CD0000</color>
+
+    <!-- common -->
+    <color name="common_1">#EEE9BF</color>
+    <color name="common_2">#C0FF3E</color>
+
     <!-- chart -->
     <color name="marker_bg">#1C232E</color>
     <color name="marker_line_bg">#000000</color>

@@ -1,4 +1,4 @@
-package chart.muke.com.mukechart.actualchart.tonghuashun;
+package chart.muke.com.mukechart.actualchart.tonghuashun.demo;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,8 @@ import static java.lang.Float.NaN;
  * Created by loro on 2017/3/7.
  */
 
-public class KMAEntity {
+public class VMAEntity {
+
     private ArrayList<Float> MAs;
 
     /**
@@ -17,7 +18,7 @@ public class KMAEntity {
      * @param kLineBeen
      * @param n         几日均值
      */
-    public KMAEntity(ArrayList<KLineBean2> kLineBeen, int n) {
+    public VMAEntity(ArrayList<KLineBean> kLineBeen, int n) {
         this(kLineBeen, n, NaN);
     }
 
@@ -28,7 +29,7 @@ public class KMAEntity {
      * @param n         几日均值
      * @param defult    不足N日时的默认值
      */
-    public KMAEntity(ArrayList<KLineBean2> kLineBeen, int n, float defult) {
+    public VMAEntity(ArrayList<KLineBean> kLineBeen, int n, float defult) {
         MAs = new ArrayList<Float>();
         float ma = 0.0f;
         int index = n - 1;
@@ -45,15 +46,15 @@ public class KMAEntity {
     }
 
 
-    private static float getSum(Integer a, Integer b, ArrayList<KLineBean2> datas) {
+    private static float getSum(Integer a, Integer b, ArrayList<KLineBean> datas) {
         float sum = 0;
         for (int i = a; i <= b; i++) {
-            sum += datas.get(i).mClosePrice;
+            sum += datas.get(i).vol;
         }
         return sum;
     }
 
-    public static float getLastMA(ArrayList<KLineBean2> datas, int n) {
+    public static float getLastMA(ArrayList<KLineBean> datas, int n) {
         if (null != datas && datas.size() > 0) {
             int count = datas.size() - 1;
             int index = n - 1;

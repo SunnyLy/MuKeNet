@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @Version v1.0.0
  * @Annotation 蜡烛图实体Bean
  */
-public class KLineBean implements Serializable{
+public class KLineBean2 implements Serializable{
 
     //当前日期
     public String mDate;
@@ -78,7 +78,7 @@ public class KLineBean implements Serializable{
 
     @Override
     public String toString() {
-        return "KLineBean{" +
+        return "KLineBean2{" +
                 "mDate='" + mDate + '\'' +
                 ", mOpenPrice=" + mOpenPrice +
                 ", mClosePrice=" + mClosePrice +

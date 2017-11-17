@@ -45,4 +45,19 @@
         <attr name="showTopMarker" format="boolean"/>
         <attr name="drawMarkerView" format="boolean"/>
     </declare-styleable>
+
+    <style name="SingleText">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="MainCommonText" parent="SingleText">
+        <item name="android:textColor">@color/text_color_common</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ViewMainCommonText" parent="SingleText">
+        <item name="android:textColor">@color/text_color_maroon</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
