@@ -1,0 +1,64 @@
+@startuml
+title:基本图表的UML图
+abstract Chart{
+#mXAxis:XAxis
+#mDescription:Description
+#mLegend:Legend
+#mSelectionListener:OnChartValueSelectedListener
+#mChartTouchListener:ChartTouchListener
+#mGestureListener:OnChartGestureListener
+#mRenderer:DataRenderer
+#mAnimator:ChartAnimator
++setData(T data):void
+#drawMarkers(Canvas canvas):void
+#drawDescription(Canvas c):void
+
+}
+abstract ChartData{
+}
+abstract class BaseEntry{
+}
+class MPPointF{
+}
+class Entry{
+}
+class ChartAnimator{
+}
+class DefaultValueFormatter{
+}
+interface ChartInterface{
++getDefaultValueFormatter():IValueFormatter
++getXChartMin():float
++getXChartMax():float
++getXRange():float
++getData():ChartData
++getCenterOffsets():MPPointF
+}
+interface IValueFormatter{
+}
+interface IDataSet{
+}
+
+'ChartAnimator o-- Chart
+'ChartInterface ..|> Chart
+'ChartData ..> Chart:依赖
+'IDataSet ..> ChartData
+'Entry ..> IDataSet
+'IValueFormatter o-- ChartInterface
+'IValueFormatter ..|> DefaultValueFormatter
+'ChartData o-- ChartInterface:聚合
+'MPPointF o-- ChartInterface
+'BaseEntry --|> Entry
+
+Chart --o ChartAnimator
+Chart <|.. ChartInterface
+Chart <.. ChartData:依赖
+ChartData <.. IDataSet
+IDataSet <.. Entry
+ChartInterface --o IValueFormatter
+DefaultValueFormatter <|-- IValueFormatter
+ChartInterface --o ChartData:聚合
+ChartInterface --o MPPointF
+Entry <|-- BaseEntry
+
+@enduml

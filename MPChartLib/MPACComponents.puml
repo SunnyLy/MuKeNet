@@ -3,8 +3,6 @@ title MPAndroidChart类图
 interface IAxisValueFormatter
 class DefaultValueFormatter{
 }
-abstract Render{
-}
 abstract ComponentBase{
 #mEnable:boolean
 #mXOffset:float
@@ -61,8 +59,12 @@ ComponentBase --|> AxisBase:extend
 AxisBase --|> XAxis:extend
 AxisBase --|> YAxis:extend
 AxisBase *-- IAxisValueFormatter:聚合
-note right of AxisBase : 注意两个方法：\n1、setLabelCount()：\nY轴标记个数，最多25个，\n最少2个，默认为6个
 ComponentBase --|> Description:extend
 Description *-- MPPointF:聚合
 ComponentBase --|> Legend:extend
+note right of AxisBase : 注意两个方法：\n1、setLabelCount()：\nY轴标记个数，最多25个，\n最少2个，默认为6个
+note top of Legend:用来展示当前Chart的小图例
+note right of LimitLine:边界线
+note right of Description:图表的一些描述：\n比如这是什么图表
+
 @enduml

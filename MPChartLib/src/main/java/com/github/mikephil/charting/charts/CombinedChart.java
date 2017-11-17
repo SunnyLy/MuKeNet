@@ -43,6 +43,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
     private boolean mDrawBarShadow = false;
 
     protected DrawOrder[] mDrawOrder;
+    public boolean mDrawMarkerViews = true;
 
     /**
      * enum that allows to specify the order in which the different data objects
@@ -225,5 +226,26 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         if (order == null || order.length <= 0)
             return;
         mDrawOrder = order;
+    }
+
+    /**
+     * returns true if drawing the marker-view is enabled when tapping on values
+     * (use the setMarkerView(View v) method to specify a marker view)
+     *
+     * @return
+     */
+    public boolean isDrawMarkerViewEnabled() {
+        return mDrawMarkerViews;
+    }
+
+    /**
+     * Set this to true to draw a user specified marker-view when tapping on
+     * chart values (use the setMarkerView(MarkerView mv) method to specify a
+     * marker view). Default: true
+     *
+     * @param enabled
+     */
+    public void setDrawMarkerViews(boolean enabled) {
+        mDrawMarkerViews = enabled;
     }
 }

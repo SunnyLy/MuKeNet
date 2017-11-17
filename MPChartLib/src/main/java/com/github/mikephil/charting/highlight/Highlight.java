@@ -59,6 +59,7 @@ public class Highlight {
      * the y-position (pixels) on which this highlight object was last drawn
      */
     private float mDrawY;
+    private int mXIndex;
 
     public Highlight(float x, float y, int dataSetIndex) {
         this.mX = x;
@@ -231,5 +232,34 @@ public class Highlight {
     public String toString() {
         return "Highlight, x: " + mX + ", y: " + mY + ", dataSetIndex: " + mDataSetIndex
                 + ", stackIndex (only stacked barentry): " + mStackIndex;
+    }
+
+    /**
+     * returns the index of the highlighted value on the x-axis
+     *
+     * @return
+     */
+    public int getXIndex() {
+        return mXIndex;
+    }
+
+    private float mTouchYValue;
+
+    public float getTouchYValue() {
+        return mTouchYValue;
+    }
+
+    public void setTouchYValue(float touchYValue) {
+        this.mTouchYValue = touchYValue;
+    }
+
+    private float mTouchY;
+
+    public float getTouchY() {
+        return mTouchY;
+    }
+
+    public void setTouchY(float touchY) {
+        this.mTouchY = touchY;
     }
 }
