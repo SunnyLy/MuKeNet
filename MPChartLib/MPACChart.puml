@@ -2,21 +2,47 @@
 title:基本图表的UML图
 abstract Chart{
 #mXAxis:XAxis
+#mYAxis:YAxis
 #mDescription:Description
 #mLegend:Legend
+#mData:T
 #mSelectionListener:OnChartValueSelectedListener
 #mChartTouchListener:ChartTouchListener
 #mGestureListener:OnChartGestureListener
 #mRenderer:DataRenderer
+#mHighlighter:IHighlighter
 #mAnimator:ChartAnimator
-+setData(T data):void
-#drawMarkers(Canvas canvas):void
-#drawDescription(Canvas c):void
++setData(data:T):void
++setHighlighter(highlighter:ChartHighlighter)
++getXAxis():XAxis
++getYAxis():YAxis
+#drawMarkers(canvas:Canvas ):void
+#drawDescription(c:Canvas ):void
+#calcMinMax()
++getDefaultValueFormatter():DefaultValueFormatter
 
 }
 abstract ChartData{
 }
+abstract Render{
+}
+abstract DataRender{
+}
+abstract class BarLineScatterCandleBubbleRenderer{
+}
+abstract class BarLineChartBase{
+#calcMinMax()
++notifyDataSetChanged():void
+}
 abstract class BaseEntry{
+}
+class BarChart{
+#mHighlightFullBarEnabled:boolean=false
+-mDrawValueAboveBar:boolean = true
+-mDrawBarShadow:boolean = false
+-mFitBars:boolean = false
+#calcMinMax()
++getBarData():BarData
 }
 class MPPointF{
 }
@@ -38,27 +64,82 @@ interface IValueFormatter{
 }
 interface IDataSet{
 }
-
-'ChartAnimator o-- Chart
+interface BarDataProvider{
++getBarData():BarData
++isDrawBarShadowEnabled():boolean
++isDrawValueAboveBarEnabled():boolean
++isHighlightFullBarEnabled():boolean
+}
+class BarData{
+}
+abstract class BarLineScatterCandleBubbleData{
+}
+interface IBarLineScatterCandleBubbleDataSet{
+}
+'ChartAnimator *-- Chart
 'ChartInterface ..|> Chart
 'ChartData ..> Chart:依赖
 'IDataSet ..> ChartData
 'Entry ..> IDataSet
-'IValueFormatter o-- ChartInterface
+'IValueFormatter *-- ChartInterface
 'IValueFormatter ..|> DefaultValueFormatter
-'ChartData o-- ChartInterface:聚合
-'MPPointF o-- ChartInterface
+'ChartData *-- ChartInterface:聚合
+'MPPointF *-- ChartInterface
 'BaseEntry --|> Entry
 
-Chart --o ChartAnimator
-Chart <|.. ChartInterface
+class XAxis{
++mLabelWidth:int = 1
++mLabelHeight:int = 1
+}
+class YAxis{
+}
+abstract class AxisBase{
+#mAxisValueFormatter:IAxisValueFormatter
+#mLimitLines:LimitLine
+}
+interface IAxisValueFormatter{
+}
+class LimitLine{
+}
+abstract class ComponentBase{
+#mEnable:boolean = true//标记此轴是否可用
+#mXOffset:float = 5f
+#mYOffset:float = 5f
+}
+
+Chart *-- ChartAnimator
+Chart <|.. ChartInterface:implements
 Chart <.. ChartData:依赖
+Chart *-- DataRender
+BarLineChartBase <|-- Chart:extends
+BarChart <|-- BarLineChartBase:extends
+BarChart *- BarChartRender:have >
+BarDataProvider <|.. BarChart:implements
+BarLineChartBase <.. BarData:依赖
+BarData <|-- BarLineScatterCandleBubbleData
+BarLineScatterCandleBubbleData <|-- ChartData
+BarLineScatterCandleBubbleData <.. IBarLineScatterCandleBubbleDataSet
 ChartData <.. IDataSet
 IDataSet <.. Entry
-ChartInterface --o IValueFormatter
-DefaultValueFormatter <|-- IValueFormatter
-ChartInterface --o ChartData:聚合
-ChartInterface --o MPPointF
+ChartInterface *-- IValueFormatter
+DefaultValueFormatter <|.. IValueFormatter:implements
+ChartInterface *-- ChartData:组合
+ChartInterface *-- MPPointF
 Entry <|-- BaseEntry
+BarChartRender <|-- BarLineScatterCandleBubbleRenderer
+BarLineScatterCandleBubbleRenderer <|-- DataRender
+DataRender <|-- Render
+Chart *-- XAxis
+Chart *-- YAxis
+Chart *-- DefaultValueFormatter
+XAxis <|-- AxisBase
+YAxis <|-- AxisBase
+AxisBase <|-- ComponentBase
+AxisBase *-- IAxisValueFormatter
+AxisBase *-- LimitLine
+LimitLine <|-- ComponentBase
 
+note right of BarLineScatterCandleBubbleData:柱状，线条，散点，蜡烛图等的数据，\n需传入父类为ChartData的泛型
+note right of BarLineChartBase:接受一个父类为BarData的泛型
+note right of BarDataProvider:柱形图表数据内容提供接口
 @enduml

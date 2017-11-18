@@ -1,5 +1,6 @@
 package chart.muke.com.mukechart.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,9 +20,11 @@ import chart.muke.com.mukechart.basicchart.BarChartActivity;
 
 public abstract class MukeBaseActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private Context mContext;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(getLayoutId());
         initParams();
     }
