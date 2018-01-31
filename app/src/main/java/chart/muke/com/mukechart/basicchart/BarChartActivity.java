@@ -1,6 +1,7 @@
 package chart.muke.com.mukechart.basicchart;
 
 import android.app.ActionBar;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -57,6 +59,7 @@ public class BarChartActivity extends MukeBaseActivity {
             mBarDatas.setDrawValues(true);//是否显示值
             mBarDatas.setHighlightEnabled(true);//是否高亮
             mBarDatas.setValueTextSize(16);
+            mBarDatas.setValueTextColor(Color.RED);
         }
 
         //初始化X軸的值
@@ -64,8 +67,22 @@ public class BarChartActivity extends MukeBaseActivity {
         //初始化Y軸的值
         initYAxisValues();
         initLegend();
+
+        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mBarChart);
+        MarkerView mv = new MarkerView(this, R.layout.activity_alipay);
+        mv.setChartView(mBarChart); // For bounds control
+        mBarChart.setMarker(mv); // Set the marker to the chart
         setData(12,60);
 
+        /**
+         * 这个方法 有点鸡肋，作者的本意是，最多可显示值的数量
+         * 但它设计的时候，有个条件，就是当bar 的条数大于你所设置的这个【最多可显示值的数量】
+         * 的时候，则值一个都不会显示。
+         *
+         * 这里个人感觉完全没必要这个方法，因为这个值你要么显示，要么不显示
+         * 只要一个是否画值的方法即可。
+         */
+        mBarChart.setMaxVisibleValueCount(14);
     }
 
     private void initLegend() {
@@ -74,7 +91,7 @@ public class BarChartActivity extends MukeBaseActivity {
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
-        l.setForm(Legend.LegendForm.SQUARE);
+        l.setForm(Legend.LegendForm.CIRCLE);
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
@@ -133,13 +150,20 @@ public class BarChartActivity extends MukeBaseActivity {
         } else {
             set1 = new BarDataSet(yVals1, "The year 2017");
             set1.setDrawIcons(false);
+            set1.setDrawValues(false);
             set1.setColors(ColorTemplate.MATERIAL_COLORS);
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
             BarData data = new BarData(dataSets);
-            data.setValueTextSize(10f);
+//            data.setValueTextSize(10f);
 //            data.setValueTypeface(mTfLight);
-            data.setBarWidth(0.9f);
+//            data.setBarWidth(0.9f);
+
+            data.setBarWidth(0.9f);//设置柱条的宽度
+            data.setDrawValues(true);//是否显示值
+            data.setHighlightEnabled(true);//是否高亮
+            data.setValueTextSize(10f);
+            data.setValueTextColor(Color.RED);
 
             mBarChart.setData(data);
         }
@@ -159,6 +183,7 @@ public class BarChartActivity extends MukeBaseActivity {
     public void onContentChanged() {
         mBarChart = findView(R.id.bc_barchart);
 //        mBarChart.setData(mBarDatas);
-        mBarChart.setMaxVisibleValueCount(60);//最多可見數
+        mBarChart.setDrawValueAboveBar(true);
+//        mBarChart.setMaxVisibleValueCount(60);//最多可見數
     }
 }
