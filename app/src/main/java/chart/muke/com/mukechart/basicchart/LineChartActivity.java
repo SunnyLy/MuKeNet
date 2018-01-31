@@ -86,6 +86,7 @@ public class LineChartActivity extends MukeBaseActivity {
             lineDataSet.setCubicIntensity(1.0f);//设置曲线的亮度，最大为1，最小为0.05，默认为0.2f
             lineDataSet.setDrawCircles(false);
             lineDataSet.setDrawValues(true);
+            lineDataSet.setValueTextColor(Color.WHITE);
 
             lineData = new LineData(lineDataSet);
             mLineChart.setData(lineData);

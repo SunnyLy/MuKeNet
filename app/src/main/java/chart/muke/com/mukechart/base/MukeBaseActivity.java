@@ -29,6 +29,10 @@ public abstract class MukeBaseActivity extends AppCompatActivity implements View
         initParams();
     }
 
+    protected <T extends View> T findView(int id) {
+        return (T) findViewById(id);
+    }
+
 
     /**
      * 獲取佈局文件

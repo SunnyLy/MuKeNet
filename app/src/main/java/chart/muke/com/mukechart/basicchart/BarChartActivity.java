@@ -157,7 +157,7 @@ public class BarChartActivity extends MukeBaseActivity {
 
     @Override
     public void onContentChanged() {
-        mBarChart = (BarChart) findViewById(R.id.bc_barchart);
+        mBarChart = findView(R.id.bc_barchart);
 //        mBarChart.setData(mBarDatas);
         mBarChart.setMaxVisibleValueCount(60);//最多可見數
     }

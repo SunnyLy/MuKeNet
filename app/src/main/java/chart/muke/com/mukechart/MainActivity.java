@@ -33,8 +33,6 @@ public class MainActivity extends ListActivity {
 
     private List<? extends Map<String, ?>> mDatas = new ArrayList<>();
     private String[] mFrom;
-    private int[] mTo;
-
     private ListView mListView;
 
     @Override
@@ -48,7 +46,6 @@ public class MainActivity extends ListActivity {
 
     private void initParams() {
         mFrom = getResources().getStringArray(R.array.chart_types);
-        mTo = new int[]{R.id.tv_item_func};
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
